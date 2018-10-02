@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
 
-from app.models import Project, Feature
+from app.models import Project, Feature, SimpleScenario
 
 
 def index(request):
@@ -25,7 +25,16 @@ def show_project(request, id):
 def list_features(request, id):
     features = Feature.objects.filter(project=id)
     context = {"features": features}
-    return render(request, 'tables_dynamic.html', context)
+    return render(request, 'features_list.html', context)
+
+
+def list_scenarios(request, id):
+    feature = Feature.objects.get(pk=id)
+    scenarios = SimpleScenario.objects.filter(feature=id)
+    context = {"feature": feature,
+               "scenarios": scenarios
+               }
+    return render(request, 'cenarios_list.html', context)
 
 
 # def gentella_html(request):

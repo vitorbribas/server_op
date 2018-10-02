@@ -16,5 +16,6 @@ urlpatterns = [
     path('projects', views.list_projects, name='projects'),
     path('project/<int:id>', views.show_project, name='project'),
     path('features/<int:id>', views.list_features, name='features'),
+    path('scenarios/<int:id>', views.list_scenarios, name='list_scenarios'),
 
 ]
