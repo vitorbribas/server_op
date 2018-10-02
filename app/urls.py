@@ -13,5 +13,8 @@ urlpatterns = [
 
     # The home page
     path('', views.index, name='index'),
-    path('profile', views.list_projects, name='projects'),
+    path('projects', views.list_projects, name='projects'),
+    path('project/<int:id>', views.show_project, name='project'),
+    path('features/<int:id>', views.list_features, name='features'),
+
 ]

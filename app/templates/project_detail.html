@@ -13,7 +13,7 @@
     <div class="">
       <div class="page-title">
         <div class="title_left">
-          <h3>Project Detail <small> design</small></h3>
+          <h3>Project Detail</h3>
         </div>
 
         <div class="title_right">
@@ -34,7 +34,7 @@
         <div class="col-md-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>New Partner Contracts Consultancy</h2>
+              <h2>{{ project.name }}</h2>
               <ul class="nav navbar-right panel_toolbox">
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>
@@ -59,16 +59,16 @@
 
                 <ul class="stats-overview">
                   <li>
-                    <span class="name"> Estimated budget </span>
+                    <span class="name"> Número de classes </span>
                     <span class="value text-success"> 2300 </span>
                   </li>
                   <li>
-                    <span class="name"> Total amount spent </span>
+                    <span class="name"> Número de métodos </span>
                     <span class="value text-success"> 2000 </span>
                   </li>
                   <li class="hidden-phone">
-                    <span class="name"> Estimated project duration </span>
-                    <span class="value text-success"> 20 </span>
+                    <span class="name"> Número de features </span>
+                    <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ project.features.all|length }} </span></a>
                   </li>
                 </ul>
                 <br />
