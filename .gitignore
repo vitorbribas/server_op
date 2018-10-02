@@ -1,0 +1,8 @@
+*.csv
+*.log
+**/.DS_Store
+.idea/
+**/migrations/
+**/__pycache__/
+db.sqlite3
+
