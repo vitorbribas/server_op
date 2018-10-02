@@ -1,6 +1,9 @@
+from django.http import JsonResponse
 from django.shortcuts import render
-from django.template import loader
-from django.http import HttpResponse
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.utils import json
 
 from app.models import Project, Feature, SimpleScenario
 
@@ -36,6 +39,14 @@ def list_scenarios(request, id):
                }
     return render(request, 'cenarios_list.html', context)
 
+
+@api_view(["POST"])
+def create_project(project):
+    try:
+        print(project.data)
+        return Response(True)
+    except ValueError as e:
+        return Response(False)
 
 # def gentella_html(request):
 #     context = {}
