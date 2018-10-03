@@ -42,8 +42,31 @@ def list_scenarios(request, id):
 
 @api_view(["POST"])
 def create_project(project):
+    proj = Project.objects.get(pk=1)
+
+    feature = Feature()
+    feature.project = proj
+
     try:
-        print(project.data)
+        print('------------------------- SE LIGA AQUI MANO NESSA TRETA -------------------------')
+        # print(project.data)
+        loaded_json = json.loads(project.data)
+        feature.path_name = loaded_json['path_name']
+        feature.feature_name = loaded_json['feature_name']
+        feature.language = loaded_json['language']
+        feature.user_story = loaded_json['user_story']
+        feature.background = loaded_json['background']
+
+        feature.save()
+
+        for each_scenario in loaded_json['scenarios']:
+            scenario = SimpleScenario()
+            scenario.feature = feature
+            scenario.scenario_title = each_scenario['scenario_title']
+            scenario.line = each_scenario['line']
+            scenario.save()
+
+        print('------------------------- FOI NERVOSO -------------------------')
         return Response(True)
     except ValueError as e:
         return Response(False)

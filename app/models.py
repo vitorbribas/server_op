@@ -30,7 +30,7 @@ class Feature(models.Model):
                                 on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.path_name
+        return self.feature_name
 
     def obj_dict(self):
         return self.__dict__
