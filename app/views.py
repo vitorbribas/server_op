@@ -16,7 +16,7 @@ def index(request):
 def list_projects(request):
     projects = Project.objects.all()
     context = {"projects": projects}
-    return render(request, 'projects.html', context)
+    return render(request, 'feature_tree.html', context)
 
 
 def show_project(request, id):
