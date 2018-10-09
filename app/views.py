@@ -1,11 +1,10 @@
-from django.http import JsonResponse
 from django.shortcuts import render
-from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.utils import json
 
 from app.models import Project, Feature, SimpleScenario
+from app.tree_object import create_chart, create_nodes
 
 
 def index(request):
@@ -15,7 +14,19 @@ def index(request):
 
 def list_projects(request):
     projects = Project.objects.all()
+
     context = {"projects": projects}
+    return render(request, 'projects.html', context)
+
+
+def show_tree(request, id):
+    project = Project.objects.get(pk=id)
+    chart = create_chart()
+    nodeStructure = create_nodes(project)
+
+    context = {"chart": str(chart),
+               "nodeStructure": str(nodeStructure),
+               "project": project}
     return render(request, 'feature_tree.html', context)
 
 

@@ -1,0 +1,168 @@
+
+def create_chart():
+    chart = {
+        "container": "#OrganiseChart-big-commpany",
+        "levelSeparation": 45,
+
+        "rootOrientation": "NORTH",
+
+        "nodeAlign": "BOTTOM",
+
+        "connectors": {
+            "type": "bCurve",
+            "style": {
+                "stroke-width": 2
+            }
+        },
+        "node": {
+            "HTMLclass": "big-commpany"
+        }
+    }
+    return chart
+
+
+def create_nodes(project):
+
+    nodeStructure = {
+        "text": {"name": "Feature 13EE3223432423"},
+        "connectors": {
+            "style": {
+                'stroke': '#bbb',
+                'arrow-end': 'oval-wide-long'
+            }
+        },
+        "children": [
+            {
+                "text": {"name": "ASDFSDFDSFSDFDSccount"},
+                "stackChildren": "true",
+                "connectors": {
+                    "style": {
+                        'stroke': '#8080FF',
+                        'arrow-end': 'block-wide-long'
+                    }
+                },
+                "children": [
+                    {
+                        "text": {"name": "RecepSDFSDFSDFSDFSDtionist"},
+                        "HTMLclass": "reception"
+                    },
+                    {
+                        "text": {"name": "AuSDFSDFSDFDSthor"}
+                    }
+                ]
+            },
+            {
+                "text": {"name": "Operation Manager"},
+                "connectors": {
+                    "style": {
+                        "stroke": "#bbb",
+                        "stroke-dasharray": "- .",
+                        "arrow-start": "classic-wide-long"
+                    }
+                },
+                "children": [
+                    {
+                        "text": {"name": "Manager I"},
+                        "connectors": {
+                            "style": {
+                                "stroke": "#00CE67"
+                            }
+                        },
+                        "children": [
+                            {
+                                "text": {"name": "Worker I"}
+                            },
+                            {
+                                "pseudo": "true",
+                                "connectors": {
+                                    "style": {
+                                        "stroke": "#00CE67"
+                                    }
+                                },
+                                "children": [
+                                    {
+                                        "text": {"name": "Worker II"}
+                                    }
+                                ]
+                            },
+                            {
+                                "text": {"name": "Worker III"}
+                            }
+                        ]
+                    },
+                    {
+                        "text": {"name": "Manager II"},
+                        "connectors": {
+                            "type": "curve",
+                            "style": {
+                                "stroke": "#50688D"
+                            }
+                        },
+                        "children": [
+                            {
+                                "text": {"name": "Worker I"}
+                            },
+                            {
+                                "text": {"name": "Worker II"}
+                            }
+                        ]
+                    },
+                    {
+                        "text": {"name": "Manager III"},
+                        "connectors": {
+                            "style": {
+                                "stroke": "#FF5555"
+                            }
+                        },
+                        "children": [
+                            {
+                                "text": {"name": "Worker I"}
+                            },
+                            {
+                                "pseudo": "true",
+                                "connectors": {
+                                    "style": {
+                                        "stroke": "#FF5555"
+                                    }
+                                },
+                                "children": [
+                                    {
+                                        "text": {"name": "Worker II"}
+                                    },
+                                    {
+                                        "text": {"name": "Worker III"}
+                                    }
+                                ]
+                            },
+                            {
+                                "text": {"name": "Worker IV"}
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "text": {"name": "Delivery Manager"},
+                "stackChildren": "true",
+                "connectors": {
+                    "stackIndent": 30,
+                    "style": {
+                        "stroke": "#E3C61A",
+                        "arrow-end": "block-wide-long"
+                    }
+                },
+                "children": [
+                    {
+                        "text": {"name": "Olha o Teste aqui"}
+                    },
+                    {
+                        "text": {"name": "Eita 22"}
+                    },
+                    {
+                        "text": {"name": "Eita 55"}
+                    }
+                ]
+            }
+        ]
+    }
+    return nodeStructure
