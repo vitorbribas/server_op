@@ -17,7 +17,8 @@ def create_chart():
             }
         },
         "node": {
-            "HTMLclass": "big-commpany"
+            "HTMLclass": "big-commpany",
+            "collapsable": "true"
         }
     }
     return chart
@@ -35,7 +36,6 @@ def create_nodes(project):
         },
         "children": create_features(features)
     }
-    print(nodeStructure)
     return nodeStructure
 
 
@@ -50,7 +50,8 @@ def create_features(parents):
 
 def create_scenarios(feature):
     nodes = []
-    scenarios = SimpleScenario.objects.filter(feature = feature)
+    scenarios = SimpleScenario.objects.filter(feature=feature)
+    print('quantidade de cenarios: ', len(scenarios))
     for scenario in scenarios:
         nodes.append({'text': {'name': scenario.scenario_title},
                       'children': create_methods(scenario)})
@@ -60,8 +61,9 @@ def create_scenarios(feature):
 
 def create_methods(scenario):
     nodes = []
-    methods = Method.objects.filter(scenarios=scenario)
+    methods = Method.objects.filter(scenarios=scenario.id)
     for method in methods:
-        nodes.append({'text': {'name': method.method_name}})
+        nodes.append({'text': {'name': method.method_name},
+                      "HTMLclass": "method"+str(method.id)})
 
     return nodes

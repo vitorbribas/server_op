@@ -6,31 +6,64 @@ body { background: #fff; font-family: "Droid Serif",Georgia,"Times New Roman",Ti
 /* optional Container STYLES */
 .chart { height: 600px; width: 750px; margin: 5px; margin: 15px auto; border: 3px solid #DDD; border-radius: 3px; }
 
-.node { font-size: 11px; }
+.node { font-size: 15px;
+		width: auto;
+		height: auto;
+		color: #0f0f0f;
+		}
+
+.node.big-commpany.method1{
+    background-color: #f0ad4e;
+	/*text-shadow: 1px 1px rgba(0,0,0);*/
+}
+.node.big-commpany.method2{
+    background-color: #00A000;
+	/*text-shadow: 1px 1px rgba(0,0,0);*/
+}
+.node.big-commpany.method3{
+    background-color: #00caff;
+	/*text-shadow: 1px 1px rgba(0,0,0);*/
+}
+.node.big-commpany.method4{
+    background-color: #5E740B;
+	/*text-shadow: 1px 1px rgba(0,0,0);*/
+}
+.node.big-commpany.method5{
+    background-color: #7a43b6;
+	/*text-shadow: 1px 1px rgba(0,0,0);*/
+}
+.node.big-commpany.method6{
+    background-color: #9c9cff;
+	/*text-shadow: 1px 1px rgba(0,0,0);*/
+}
+.node.big-commpany.method7{
+    background-color: #f0ad4e;
+	/*text-shadow: 1px 1px rgba(0,0,0);*/
+}
 
 .node.big-commpany { 
 	cursor: pointer;
 	padding: 0 2px;
 	min-width: 60px;
 	text-align: center;
-	height: 30px;
-	border: 2px solid #E8E8E3; 
+	/*height: 30px;*/
+	border: 2px solid #2A3F54;
 	border-radius: 2px;
-	box-shadow: 1px 1px 1px rgba(0,0,0,.5);
-	background: #fff; 
+	/*box-shadow: 1px 1px 1px rgba(0,0,0,.5);*/
+	background: #fff;
 }
 .node.big-commpany:active { 
-	box-shadow: inset 1px 1px 1px rgba(0,0,0,.1); 
+	/*box-shadow: inset 1px 1px 1px rgba(0,0,0,.1); */
 	margin: 1px 0 0 1px; 
 	border: 2px solid #D3D3CB;
 }
 
 .node.big-commpany .node-name {
-	line-height: 30px;
-	color: #9B9B9B;
+	/*line-height: 30px;*/
+	/*color: #9B9B9B;*/
 }
 
 .node.big-commpany:hover .node-name {
-	color: #8B8B8B;
-	text-shadow: 1px 1px rgba(0,0,0,.15);
+	/*color: #8B8B8B;*/
+	/*text-shadow: 1px 1px rgba(0,0,0,.15);*/
 }

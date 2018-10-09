@@ -3,7 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.utils import json
 
-from app.models import Project, Feature, SimpleScenario
+from app.models import Project, Feature, SimpleScenario, Method
+from app.populate_db import create_entities
 from app.tree_object import create_chart, create_nodes
 
 
@@ -55,31 +56,10 @@ def list_scenarios(request, id):
 def create_project(project):
     proj = Project.objects.get(pk=1)
 
-    feature = Feature()
-    feature.project = proj
-
-    try:
-        print('------------------------- SE LIGA AQUI MANO NESSA TRETA -------------------------')
-        # print(project.data)
-        loaded_json = json.loads(project.data)
-        feature.path_name = loaded_json['path_name']
-        feature.feature_name = loaded_json['feature_name']
-        feature.language = loaded_json['language']
-        feature.user_story = loaded_json['user_story']
-        feature.background = loaded_json['background']
-
-        feature.save()
-
-        for each_scenario in loaded_json['scenarios']:
-            scenario = SimpleScenario()
-            scenario.feature = feature
-            scenario.scenario_title = each_scenario['scenario_title']
-            scenario.line = each_scenario['line']
-            scenario.save()
-
-        print('------------------------- FOI NERVOSO -------------------------')
+    result = create_entities(proj, project)
+    if result:
         return Response(True)
-    except ValueError as e:
+    else:
         return Response(False)
 
 # def gentella_html(request):
