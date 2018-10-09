@@ -1,3 +1,5 @@
+from app.models import Feature, SimpleScenario, Method
+
 
 def create_chart():
     chart = {
@@ -22,147 +24,44 @@ def create_chart():
 
 
 def create_nodes(project):
-
+    features = Feature.objects.filter(project=project)
     nodeStructure = {
-        "text": {"name": "Feature 13EE3223432423"},
+        "text": {"name": project.name},
         "connectors": {
             "style": {
                 'stroke': '#bbb',
                 'arrow-end': 'oval-wide-long'
             }
         },
-        "children": [
-            {
-                "text": {"name": "ASDFSDFDSFSDFDSccount"},
-                "stackChildren": "true",
-                "connectors": {
-                    "style": {
-                        'stroke': '#8080FF',
-                        'arrow-end': 'block-wide-long'
-                    }
-                },
-                "children": [
-                    {
-                        "text": {"name": "RecepSDFSDFSDFSDFSDtionist"},
-                        "HTMLclass": "reception"
-                    },
-                    {
-                        "text": {"name": "AuSDFSDFSDFDSthor"}
-                    }
-                ]
-            },
-            {
-                "text": {"name": "Operation Manager"},
-                "connectors": {
-                    "style": {
-                        "stroke": "#bbb",
-                        "stroke-dasharray": "- .",
-                        "arrow-start": "classic-wide-long"
-                    }
-                },
-                "children": [
-                    {
-                        "text": {"name": "Manager I"},
-                        "connectors": {
-                            "style": {
-                                "stroke": "#00CE67"
-                            }
-                        },
-                        "children": [
-                            {
-                                "text": {"name": "Worker I"}
-                            },
-                            {
-                                "pseudo": "true",
-                                "connectors": {
-                                    "style": {
-                                        "stroke": "#00CE67"
-                                    }
-                                },
-                                "children": [
-                                    {
-                                        "text": {"name": "Worker II"}
-                                    }
-                                ]
-                            },
-                            {
-                                "text": {"name": "Worker III"}
-                            }
-                        ]
-                    },
-                    {
-                        "text": {"name": "Manager II"},
-                        "connectors": {
-                            "type": "curve",
-                            "style": {
-                                "stroke": "#50688D"
-                            }
-                        },
-                        "children": [
-                            {
-                                "text": {"name": "Worker I"}
-                            },
-                            {
-                                "text": {"name": "Worker II"}
-                            }
-                        ]
-                    },
-                    {
-                        "text": {"name": "Manager III"},
-                        "connectors": {
-                            "style": {
-                                "stroke": "#FF5555"
-                            }
-                        },
-                        "children": [
-                            {
-                                "text": {"name": "Worker I"}
-                            },
-                            {
-                                "pseudo": "true",
-                                "connectors": {
-                                    "style": {
-                                        "stroke": "#FF5555"
-                                    }
-                                },
-                                "children": [
-                                    {
-                                        "text": {"name": "Worker II"}
-                                    },
-                                    {
-                                        "text": {"name": "Worker III"}
-                                    }
-                                ]
-                            },
-                            {
-                                "text": {"name": "Worker IV"}
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "text": {"name": "Delivery Manager"},
-                "stackChildren": "true",
-                "connectors": {
-                    "stackIndent": 30,
-                    "style": {
-                        "stroke": "#E3C61A",
-                        "arrow-end": "block-wide-long"
-                    }
-                },
-                "children": [
-                    {
-                        "text": {"name": "Olha o Teste aqui"}
-                    },
-                    {
-                        "text": {"name": "Eita 22"}
-                    },
-                    {
-                        "text": {"name": "Eita 55"}
-                    }
-                ]
-            }
-        ]
+        "children": create_features(features)
     }
+    print(nodeStructure)
     return nodeStructure
+
+
+def create_features(parents):
+    nodes = []
+    for feature in parents:
+        nodes.append({'text': {'name': feature.feature_name},
+                      'children': create_scenarios(feature)})
+
+    return nodes
+
+
+def create_scenarios(feature):
+    nodes = []
+    scenarios = SimpleScenario.objects.filter(feature = feature)
+    for scenario in scenarios:
+        nodes.append({'text': {'name': scenario.scenario_title},
+                      'children': create_methods(scenario)})
+
+    return nodes
+
+
+def create_methods(scenario):
+    nodes = []
+    methods = Method.objects.filter(scenarios=scenario)
+    for method in methods:
+        nodes.append({'text': {'name': method.method_name}})
+
+    return nodes
