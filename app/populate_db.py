@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.utils import json
 
-from app.models import Feature, SimpleScenario, Method
+from app.models import Feature, SimpleScenario, Method, Project
 
 
 def create_entities(proj, project):
@@ -50,3 +50,73 @@ def is_new_method(method):
         return False
     else:
         return True
+
+
+def prepare_graph():
+    FEATURE_GROUP = 5
+    SCENARIO_GROUP = 10
+    METHOD_GROUP = 15
+
+    graph = {
+        "nodes": [],
+        "links": []
+    }
+
+    project = Project.objects.get(pk=1)
+    features = Feature.objects.filter(project=project)
+
+    for feature in features:
+        scenarios = SimpleScenario.objects.filter(feature=feature)
+        node = {
+            "id":feature.path_name,
+            "group": FEATURE_GROUP,
+            "size": get_size(scenarios)
+        }
+        if node not in graph['nodes']:
+            graph['nodes'].append(node)
+        for scenario in scenarios:
+            methods = scenario.executed_methods.all()
+            node = {
+                "id": scenario.scenario_title,
+                "group": SCENARIO_GROUP,
+                "size": len(methods)
+            }
+            if node not in graph['nodes']:
+                graph['nodes'].append(node)
+
+            link = {
+                "source": feature.path_name,
+                "target": scenario.scenario_title,
+                "value": 3
+            }
+            graph['links'].append(link)
+
+            for method in methods:
+                node = {
+                    "id": method.method_name,
+                    "group": METHOD_GROUP,
+                    "size": 1
+                }
+                if node not in graph['nodes']:
+                    graph['nodes'].append(node)
+
+                link = {
+                    "source": scenario.scenario_title,
+                    "target": method.method_name,
+                    "value": 3
+                }
+                graph['links'].append(link)
+
+    with open('app/static/data2.json', 'w') as outfile:
+        json.dump(graph, outfile)
+
+
+def get_size(scenarios):
+    methods_total = []
+    for scenario in scenarios:
+        methods = scenario.executed_methods.all()
+        for meth in methods:
+            if meth not in methods_total:
+                methods_total.append(meth)
+
+    return len(methods_total)

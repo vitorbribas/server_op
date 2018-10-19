@@ -7,29 +7,40 @@
      <style>
     .links line {
       stroke: #999;
-      stroke-opacity: 0.6;
+      stroke-opacity: 1;
     }
     .nodes circle {
       stroke: #fff;
-      stroke-width: 1.5px;
+      stroke-width: 2px;
     }
+     .block_graph{
+         background-color: whitesmoke;
+         width: 90%;
+         margin-left: 5%;
+     }
     </style>
 
 {% endblock stylesheets %}
 
 {% block content %}
- <svg width="960" height="600"></svg>
+    <div class="block_graph" align="center">
+        <svg width="1200" height="600"></svg>
+
+    </div>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
+
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 var color = d3.scaleOrdinal(d3.schemeCategory20);
+
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
-d3.json("{% static 'data.json'%}", function(error, graph) {
+
+d3.json("{% static 'data2.json'%}", function(error, graph) {
   if (error) throw error;
   var link = svg.append("g")
       .attr("class", "links")
@@ -42,7 +53,13 @@ d3.json("{% static 'data.json'%}", function(error, graph) {
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-      .attr("r", 5)
+      .attr("r", function (d) {
+          if(d.group == 10){
+              return d.size*2.5
+          }else{
+            return d.size*4
+          }
+           })
       .attr("fill", function(d) { return color(d.group); })
       .call(d3.drag()
           .on("start", dragstarted)

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.utils import json
 
 from app.models import Project, Feature, SimpleScenario, Method
-from app.populate_db import create_entities
+from app.populate_db import create_entities, prepare_graph
 from app.tree_object import create_chart, create_nodes
 
 
@@ -53,8 +53,11 @@ def list_scenarios(request, id):
 
 
 def graph_features(request):
-    # generate_json_graph()
-    return render(request, 'graph_representation.html')
+    graph = prepare_graph()
+    context = {
+        "graph": graph
+    }
+    return render(request, 'graph_representation.html', context)
 
 
 @api_view(["POST"])
