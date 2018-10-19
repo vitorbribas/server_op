@@ -48,11 +48,32 @@ d3.json("{% static 'data2.json'%}", function(error, graph) {
     .data(graph.links)
     .enter().append("line")
       .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+  var color_feature = d3.color("black");
+  var color_border = d3.color("white");
+  var color_scenario = d3.color("green");
+
   var node = svg.append("g")
       .attr("class", "nodes")
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
+      .style("stroke", function (d) {
+          if(d.group == 5){
+              return color_feature;
+          }else if(d.group == 10){
+              return color_scenario;
+          }else{
+              return color_border;
+          }
+      })
+      .style("stroke-width", function (d) {
+          if(d.group == 5){
+              return 3;
+          }else{
+              return 2;
+          }
+      })
       .attr("r", function (d) {
           if(d.group == 10){
               return d.size*2.5
@@ -66,7 +87,7 @@ d3.json("{% static 'data2.json'%}", function(error, graph) {
           .on("drag", dragged)
           .on("end", dragended));
   node.append("title")
-      .text(function(d) { return d.id; });
+      .text(function(d) { return d.id + '  [' + d.size.toString() + ' métodos]';  });
   simulation
       .nodes(graph.nodes)
       .on("tick", ticked);
@@ -88,6 +109,7 @@ function dragstarted(d) {
   d.fx = d.x;
   d.fy = d.y;
 }
+
 function dragged(d) {
   d.fx = d3.event.x;
   d.fy = d3.event.y;
