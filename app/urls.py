@@ -1,4 +1,3 @@
-from django.conf.urls import url
 from django.urls import path
 
 from app import views
@@ -18,6 +17,6 @@ urlpatterns = [
     path('project/<int:id>', views.show_project, name='project'),
     path('features/<int:id>', views.list_features, name='features'),
     path('scenarios/<int:id>', views.list_scenarios, name='list_scenarios'),
-    path('createproject', views.create_project)
-
+    path('createproject', views.create_project),
+    path('graphfeatures', views.graph_features, name='graph')
 ]

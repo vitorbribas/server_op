@@ -52,6 +52,11 @@ def list_scenarios(request, id):
     return render(request, 'cenarios_list.html', context)
 
 
+def graph_features(request):
+    # generate_json_graph()
+    return render(request, 'graph_representation.html')
+
+
 @api_view(["POST"])
 def create_project(project):
     proj = Project.objects.get(pk=1)
