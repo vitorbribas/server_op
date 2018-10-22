@@ -4,22 +4,41 @@ from rest_framework.utils import json
 from app.models import Feature, SimpleScenario, Method, Project
 
 
-def create_entities(proj, project):
+def get_project(loaded_json):
+    name = loaded_json['project']['name']
+    language = loaded_json['project']['language']
+    repository = loaded_json['project']['repository']
+    project = Project.objects.filter(name=name)
+    if project:
+        return project[0]
+    else:
+        project = Project()
+        project.name = name
+        project.repository = repository
+        project.language = language
+        project.save()
+        return project
+
+
+def create_entities(project):
     feature = Feature()
-    feature.project = proj
 
     try:
         print('------------------------- SE LIGA AQUI MANO NESSA TRETA -------------------------')
-        print(project.data)
+        # print(project.data)
         loaded_json = json.loads(project.data)
+        project = get_project(loaded_json)
+        feature.project = project
+
         feature.path_name = loaded_json['path_name']
         feature.feature_name = loaded_json['feature_name']
         feature.language = loaded_json['language']
         feature.user_story = loaded_json['user_story']
         feature.background = loaded_json['background']
-
-        feature.save()
-
+        features_db = Feature.objects.filter(path_name=feature.path_name).filter(project=feature.project)
+        if not features_db:
+            feature.save()
+        print('SALVOU!')
         for each_scenario in loaded_json['scenarios']:
             scenario = SimpleScenario()
             scenario.feature = feature

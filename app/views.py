@@ -62,13 +62,9 @@ def graph_features(request):
 
 @api_view(["POST"])
 def create_project(project):
-    proj = Project.objects.get(pk=1)
 
-    result = create_entities(proj, project)
-    if result:
-        return Response(True)
-    else:
-        return Response(False)
+    result = create_entities(project)
+    return Response(result)
 
 # def gentella_html(request):
 #     context = {}

@@ -8,6 +8,7 @@ class Project(models.Model):
     name = models.CharField(max_length=70, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     language = models.CharField(max_length=30, blank=True, null=True)
+    repository = models.CharField(max_length=200, blank=True, null=True)
 
     created = models.DateTimeField('Criado em', auto_now_add=True)
     modified = models.DateTimeField('Modificado em', auto_now=True)
