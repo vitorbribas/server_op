@@ -52,6 +52,15 @@ def list_scenarios(request, id):
     return render(request, 'cenarios_list.html', context)
 
 
+def bubble_chart(request):
+    graph = prepare_graph()
+    context = {
+        "graph": graph
+    }
+    return render(request, 'bubble_chart.html', context)
+
+
+
 def graph_features(request):
     graph = prepare_graph()
     context = {

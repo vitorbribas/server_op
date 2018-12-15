@@ -18,5 +18,6 @@ urlpatterns = [
     path('features/<int:id>', views.list_features, name='features'),
     path('scenarios/<int:id>', views.list_scenarios, name='list_scenarios'),
     path('createproject', views.create_project),
-    path('graphfeatures', views.graph_features, name='graph')
+    path('graphfeatures', views.graph_features, name='graph'),
+    path('bublechart', views.bubble_chart, name='bubble')
 ]

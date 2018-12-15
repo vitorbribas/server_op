@@ -81,7 +81,7 @@ def prepare_graph():
         "links": []
     }
 
-    project = Project.objects.get(pk=1)
+    project = Project.objects.get(pk=3)
     features = Feature.objects.filter(project=project)
 
     for feature in features:
@@ -138,4 +138,4 @@ def get_size(scenarios):
             if meth not in methods_total:
                 methods_total.append(meth)
 
-    return len(methods_total)
+    return len(methods_total)/20

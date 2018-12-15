@@ -1,0 +1,164 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% block title %} Projects {% endblock title %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <style>
+    text {
+      font: 10px sans-serif;
+    }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <div class="block_graph" align="center">
+        <h1>Ola mundo</h1>
+{#        <svg width="1200" height="800" style="margin-left: 500px; margin-top: 100px;"></svg>#}
+
+    </div>
+    <script>
+
+    var color_feature = d3.color("black");
+    var color_border = d3.color("white");
+    var color_scenario = d3.color("green");
+
+    var diameter = 960,
+    format = d3.format(",d"),
+    color = d3.scaleOrdinal(d3.schemeCategory20c);
+
+    var bubble = d3.pack()
+        .size([diameter, diameter])
+        .padding(1.5);
+
+    var svg = d3.select("body").selectAll("div.block_graph")
+            .append("svg")
+            .attr("width", diameter)
+            .attr("height", diameter)
+            .attr("class", "bubble");
+
+    d3.json("{% static 'data2.json' %}", function(error, data) {
+      if (error) throw error;
+
+      var root = d3.hierarchy(classes(data.nodes))
+          .sum(function(d) { return d.value; })
+          .sort(function(a, b) { return b.value - a.value; });
+
+      bubble(root);
+      var node = svg.selectAll(".node")
+          .data(root.children)
+        .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+      node.append("title")
+          .text(function(d) { return d.data.className + ": " + format(d.value); });
+
+      node.append("circle")
+          .attr("r", function(d) { return d.r; })
+          .style("fill", function(d) {
+            {#return color(d.data.packageName);#}
+              if(d.data.packageName == 5){
+                  return '#D2691E';
+              }else if(d.data.packageName == 10){
+                  return '#228B22';
+              }else{
+                  return color_border;
+              }
+
+          });
+
+      node.append("text")
+          .attr("dy", ".3em")
+          .style("text-anchor", "middle")
+          .text(function(d) { return d.data.className.substring(0, d.r / 3); });
+    });
+
+    // Returns a flattened hierarchy containing all leaf nodes under the root.
+    function classes(root) {
+      var classes = [];
+
+      function recurse(name, node) {
+          console.log(node.group);
+        if (node.length > 0) node.forEach(function(child) { recurse(node.id, child); });
+        else if (node.group != 15) classes.push({packageName: node.group, className: node.id, value: node.size});
+      }
+
+      recurse(null, root);
+      return {children: classes};
+    }
+
+    d3.select(self.frameElement).style("height", diameter + "px");
+
+
+
+
+
+
+
+
+
+
+        {#let color_feature = d3.color("black");#}
+        {#let color_border = d3.color("white");#}
+        {#let color_scenario = d3.color("green");#}
+        {#let svg = d3.select("svg");#}
+        {#let color = d3.scaleOrdinal(d3.schemeCategory20);#}
+        {##}
+        {#let circle = svg.append("circle")#}
+        {#    .attr("cx", 200)#}
+        {#    .attr("cy", 150)#}
+        {#    .attr("r", 50)#}
+        {#    .attr("fill", "red");#}
+        {##}
+        {#d3.json("{% static 'data2.json'%}", function(error, graph) {#}
+        {#   if (error) throw error;#}
+        {#    var bubbles = svg.append("g")#}
+        {#        .attr("class", "bubble")#}
+        {#        .selectAll("circle")#}
+        {#    .data(graph.nodes)#}
+        {#    .enter().append("circle")#}
+        {#        .style("fill", function(d) {#}
+        {#            return color(Math.random());#}
+        {#        })#}
+        {#        .style("stroke", function (d) {#}
+        {#          if(d.group == 5){#}
+        {#              return color_feature;#}
+        {#          }else if(d.group == 10){#}
+        {#              return color_scenario;#}
+        {#          }else{#}
+        {#              return color_border;#}
+        {#          }#}
+        {#        })#}
+        {#    .style("stroke-width", function (d) {#}
+        {#          if(d.group == 5){#}
+        {#              return 3;#}
+        {#          }else{#}
+        {#              return 2;#}
+        {#          }#}
+        {#      })#}
+        {#      .attr("r", function (d) {#}
+        {#          if(d.group == 10){#}
+        {#              return d.size*10;#}
+        {#          }else{#}
+        {#            return d.size*5;#}
+        {#          }#}
+        {#           })#}
+        {#      .attr("fill", function(d) { return color(d.group); })#}
+        {#        .attr("cx", function (d) { return d.size*30;})#}
+        {#        .attr("cy", function (d) { return d.size*20;})#}
+
+
+
+
+    </script>
+
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+
+{% endblock javascripts %}

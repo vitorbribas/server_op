@@ -76,9 +76,9 @@ d3.json("{% static 'data2.json'%}", function(error, graph) {
       })
       .attr("r", function (d) {
           if(d.group == 10){
-              return d.size*2.5
+              return d.size*0.25
           }else{
-            return d.size*4
+            return d.size*0.4
           }
            })
       .attr("fill", function(d) { return color(d.group); })
