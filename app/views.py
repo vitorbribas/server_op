@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.utils import json
 
 from app.models import Project, Feature, SimpleScenario, Method
-from app.populate_db import create_entities, prepare_graph
+from app.populate_db import create_entities, prepare_graph, prepare_feature_graph
 from app.tree_object import create_chart, create_nodes
 
 
@@ -60,9 +60,8 @@ def bubble_chart(request):
     return render(request, 'bubble_chart.html', context)
 
 
-
-def graph_features(request):
-    graph = prepare_graph()
+def graph_features(request, id):
+    graph = prepare_feature_graph(id)
     context = {
         "graph": graph
     }

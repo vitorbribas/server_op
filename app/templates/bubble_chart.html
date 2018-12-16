@@ -69,6 +69,9 @@
                   return color_border;
               }
 
+          })
+          .on("click", function(d) {
+            get_children_graph(d.data.cod);
           });
 
       node.append("text")
@@ -77,6 +80,15 @@
           .text(function(d) { return d.data.className.substring(0, d.r / 3); });
     });
 
+
+    function get_children_graph(id){
+        alert('OLHAAAAAA ' +  id);
+        const Http = new XMLHttpRequest();
+        const url = '/graphfeatures';
+        $(location).attr('href', url+'/'+ id);
+
+    }
+
     // Returns a flattened hierarchy containing all leaf nodes under the root.
     function classes(root) {
       var classes = [];
@@ -84,7 +96,7 @@
       function recurse(name, node) {
           console.log(node.group);
         if (node.length > 0) node.forEach(function(child) { recurse(node.id, child); });
-        else if (node.group != 15) classes.push({packageName: node.group, className: node.id, value: node.size});
+        else if (node.group != 15) classes.push({packageName: node.group, id: node.id, cod:node.cod, className: node.name, value: node.size});
       }
 
       recurse(null, root);
