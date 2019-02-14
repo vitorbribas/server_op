@@ -61,6 +61,7 @@
                   <tr>
                     <th>Title</th>
                     <th>Line</th>
+                    <th>Métodos</th>
                   </tr>
                 </thead>
 
@@ -70,6 +71,11 @@
                   <tr>
                     <td>{{ scenario.scenario_title }}</td>
                     <td>{{ scenario.line }}</td>
+                    <td>
+                        {% for method in scenario.executed_methods.all %}
+                            <p>{{ method.method_name }} - {{ method.get_probability }}</p>
+                        {% endfor %}
+                    </td>
                   </tr>
                   {% endfor %}
 

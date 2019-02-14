@@ -90,7 +90,7 @@ def prepare_feature_graph(id):
         'cod': feature.id,
         "name": feature.feature_name,
         "group": 5,
-        "size": get_size(scenarios)
+        "size": get_size(scenarios)/5
     }
     graph['nodes'].append(node)
 
@@ -101,7 +101,7 @@ def prepare_feature_graph(id):
             "cod": scenario.id,
             "name": scenario.scenario_title,
             "group": SCENARIO_GROUP,
-            "size": len(methods)
+            "size": len(methods)/5
         }
         if node not in graph['nodes']:
             graph['nodes'].append(node)
@@ -120,6 +120,7 @@ def prepare_feature_graph(id):
                 "cod": method.id,
                 "name": method.method_name,
                 "group": METHOD_GROUP,
+                "executed": method.scenarios.count(),
                 "size": 1
             }
             if node not in graph['nodes']:
@@ -157,7 +158,7 @@ def prepare_graph():
             "cod": feature.id,
             "name": feature.feature_name,
             "group": FEATURE_GROUP,
-            "size": get_size(scenarios)
+            "size": get_size(scenarios)/5
         }
         if node not in graph['nodes']:
             graph['nodes'].append(node)
@@ -168,7 +169,7 @@ def prepare_graph():
                 "cod": scenario.id,
                 "name": scenario.scenario_title,
                 "group": SCENARIO_GROUP,
-                "size": len(methods)
+                "size": len(methods)/5
             }
             if node not in graph['nodes']:
                 graph['nodes'].append(node)
@@ -211,4 +212,4 @@ def get_size(scenarios):
             if meth not in methods_total:
                 methods_total.append(meth)
 
-    return len(methods_total)/20
+    return len(methods_total)

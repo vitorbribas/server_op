@@ -26,7 +26,8 @@ class Feature(models.Model):
     language = models.CharField(max_length=50, blank=True, null=True)
     user_story = models.CharField(max_length=300, blank=True, null=True)
     background = models.CharField(max_length=300, blank=True, null=True)
-    probability = models.FloatField(validators=[MinValueValidator(0.1), MaxValueValidator(100)], blank=True, null=True)
+    probability = models.FloatField(validators=[MinValueValidator(0.1), MaxValueValidator(100)], blank=True,
+                                    null=True, default=0)
     project = models.ForeignKey('app.Project', verbose_name='Project', blank=True, related_name='features',
                                 on_delete=models.CASCADE, null=True)
 
@@ -62,6 +63,8 @@ class SimpleScenario(Scenario):
     line = models.IntegerField()
     executed_methods = models.ManyToManyField('app.Method', verbose_name='Metodos', blank=True,
                                               related_name='scenarios')
+    probability = models.FloatField('Probabilidade', validators=[MinValueValidator(0.1), MaxValueValidator(100)],
+                                    blank=True, null=True, default=0)
 
     def execute(self):
         pass
@@ -128,9 +131,16 @@ class Method(models.Model):
     class_name = models.CharField(max_length=200, blank=True, null=True)
     class_path = models.CharField(max_length=200, blank=True, null=True)
 
-    probability = models.FloatField(validators=[MinValueValidator(0.1), MaxValueValidator(100)], blank=True, null=True)
+    probability = models.FloatField(validators=[MinValueValidator(0.1), MaxValueValidator(100)], blank=True, null=True,
+                                    default=0)
 
     def __str__(self):
         return self.method_name
+
+    def get_probability(self):
+        for scenario in self.scenarios.all():
+            self.probability += scenario.probability
+
+        return self.probability
 
     objects = models.Manager()
