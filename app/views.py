@@ -1,8 +1,14 @@
+from unittest import loader
+
+from django.forms import forms, FloatField
+from django.http import HttpResponse
 from django.shortcuts import render
+from rest_framework.compat import MinValueValidator, MaxValueValidator
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.utils import json
 
+from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method
 from app.populate_db import create_entities, prepare_graph, prepare_feature_graph
 from app.tree_object import create_chart, create_nodes
@@ -74,13 +80,35 @@ def create_project(project):
     result = create_entities(project)
     return Response(result)
 
-# def gentella_html(request):
-#     context = {}
-#     # The template to be loaded as per gentelella.
-#     # All resource paths for gentelella end in .html.
-#
-#     # Pick out the html file name from the url. And load that template.
-#     load_template = request.path.split('/')[-1]
-#     template = loader.get_template('app/' + load_template)
-#     return HttpResponse(template.render(context, request))
+
+def insert_probabilities(request, id):
+    context = {}
+    features = Feature.objects.filter(project=id)
+
+    if request.method == 'POST':
+        print(request.POST)
+        # if 'features' in request.POST:
+        #     for feature in features:
+        #         feature.probability = float(request.POST['features'][feature.path_name])
+        #         feature.save()
+        #     try:
+        #         content = json.loads(project.features)
+        #     except json.JSONDecodeError:
+        #         content = {}
+
+        return render(request, 'index.html')
+
+    else:
+        new_fields = {}
+        context['features'] = []
+        for feature in features:
+            context['features'].append(FeatureForm)
+
+    context['oi'] = 'lslalsalsalslaslalsla'
+    # IngForm = DynamicIngridientsForm(content)
+    # context['features_form'] = IngForm
+    # print(context)
+    # return render(request, "demo/dynamic.html", context)
+    return render(request, 'form_validation.html', context)
+
 
