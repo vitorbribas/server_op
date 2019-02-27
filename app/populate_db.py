@@ -90,7 +90,7 @@ def prepare_feature_graph(id):
         'cod': feature.id,
         "name": feature.feature_name,
         "group": 5,
-        "size": get_size(scenarios)/5
+        "size": get_size(scenarios)
     }
     graph['nodes'].append(node)
 
@@ -101,7 +101,7 @@ def prepare_feature_graph(id):
             "cod": scenario.id,
             "name": scenario.scenario_title,
             "group": SCENARIO_GROUP,
-            "size": len(methods)/5
+            "size": len(methods)
         }
         if node not in graph['nodes']:
             graph['nodes'].append(node)
@@ -138,7 +138,7 @@ def prepare_feature_graph(id):
         json.dump(graph, outfile)
 
 
-def prepare_graph():
+def prepare_graph(id):
     FEATURE_GROUP = 5
     SCENARIO_GROUP = 10
     METHOD_GROUP = 15
@@ -148,7 +148,7 @@ def prepare_graph():
         "links": []
     }
 
-    project = Project.objects.get(pk=1)
+    project = Project.objects.get(pk=id)
     features = Feature.objects.filter(project=project)
 
     for feature in features:

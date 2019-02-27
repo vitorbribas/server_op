@@ -58,8 +58,8 @@ def list_scenarios(request, id):
     return render(request, 'cenarios_list.html', context)
 
 
-def bubble_chart(request):
-    graph = prepare_graph()
+def bubble_chart(request, id):
+    graph = prepare_graph(id)
     context = {
         "graph": graph
     }

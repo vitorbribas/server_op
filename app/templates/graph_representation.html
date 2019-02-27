@@ -73,9 +73,11 @@ d3.json("{% static 'feature_graph.json'%}", function(error, graph) {
       })
       .attr("r", function (d) {
           if(d.group == 10){
-              return d.size*5
+              return d.size
+          }else if(d.group == 5) {
+              return d.size*2
           }else{
-            return d.size*5
+            return 5
           }
            })
       .attr("fill", function(d) { return color(d.group); })
@@ -84,7 +86,7 @@ d3.json("{% static 'feature_graph.json'%}", function(error, graph) {
           .on("drag", dragged)
           .on("end", dragended));
   node.append("title")
-      .text(function(d) { return d.name + '  [' + d.size.toString() + ' métodos] --- ' + d.toString()  });
+      .text(function(d) { return d.name + '  [' + d.size.toString() + ' métodos]'});
   simulation
       .nodes(graph.nodes)
       .on("tick", ticked);
