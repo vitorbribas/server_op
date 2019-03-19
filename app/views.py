@@ -109,6 +109,6 @@ def insert_probabilities(request, id):
     # context['features_form'] = IngForm
     # print(context)
     # return render(request, "demo/dynamic.html", context)
-    return render(request, 'form_validation.html', context)
+    return render(request, 'insert_prob.html', context)
 
 

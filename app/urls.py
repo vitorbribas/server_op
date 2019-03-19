@@ -22,3 +22,4 @@ urlpatterns = [
     path('bublechart/<int:id>', views.bubble_chart, name='bubble'),
     path('insertprob/<int:id>', views.insert_probabilities, name='prob')
 ]
+
