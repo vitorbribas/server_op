@@ -80,13 +80,15 @@
                                 <tr>
                                     <th>Nome</th>
                                     <th>Probabilidade</th>
+                                    <th>Count Spectra</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for method in scenario.executed_methods.all %}
                                     <tr>
                                         <td><p>{{ method.method_name }}</p></td>
-                                        <td><p>{{ method.get_probability }}</p></td>
+                                        <td><p>{{ method.get_probability }}%</p></td>
+                                        <td><p>{{ method.get_count_spectra }}</p></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

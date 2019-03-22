@@ -143,4 +143,7 @@ class Method(models.Model):
 
         return self.probability
 
+    def get_count_spectra(self):
+        return len(self.scenarios.all())
+
     objects = models.Manager()
