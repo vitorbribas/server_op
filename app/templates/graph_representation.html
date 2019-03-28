@@ -73,11 +73,19 @@ d3.json("{% static 'feature_graph.json'%}", function(error, graph) {
       })
       .attr("r", function (d) {
           if(d.group == 10){
-              return d.size
+              if(d.size < 10){
+                  return d.size
+              } else{
+                  return 10
+              }
           }else if(d.group == 5) {
-              return d.size*2
+              if(d.size < 10){
+                  return d.size
+              } else{
+                  return 10
+              }
           }else{
-            return 5
+            return 3
           }
            })
       .attr("fill", function(d) { return color(d.group); })

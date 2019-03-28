@@ -85,8 +85,10 @@ def prepare_feature_graph(id):
     feature = Feature.objects.filter(id=id)[0]
 
     scenarios = SimpleScenario.objects.filter(feature=feature)
+    print('Scenarios: ', len(scenarios))
+    print('feature ', feature.path_name)
     node = {
-        "id": re.sub('[^A-Za-z0-9]+', '', feature.feature_name),
+        "id": re.sub('[^A-Za-z0-9]+', '', feature.path_name),
         'cod': feature.id,
         "name": feature.feature_name,
         "group": 5,
@@ -94,8 +96,11 @@ def prepare_feature_graph(id):
     }
     graph['nodes'].append(node)
 
+    print('Feature Defined')
+
     for scenario in scenarios:
         methods = scenario.executed_methods.all()
+        print('Scenario ', scenario.scenario_title, ': ', len(methods), ' executed methods.')
         node = {
             "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
             "cod": scenario.id,
@@ -108,9 +113,9 @@ def prepare_feature_graph(id):
 
         # Create links between feature and scenarios
         link = {
-            "source": re.sub('[^A-Za-z0-9]+', '', feature.feature_name),
+            "source": re.sub('[^A-Za-z0-9]+', '', feature.path_name),
             "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
-            "value": 3
+            "value": 2
         }
         graph['links'].append(link)
 
@@ -132,9 +137,9 @@ def prepare_feature_graph(id):
                 "value": 3
             }
             graph['links'].append(link)
-
+    print('Number of nodes: ', len(graph['nodes']))
+    print('Number of links: ', len(graph['links']))
     with open('app/static/feature_graph.json', 'w') as outfile:
-        print(graph)
         json.dump(graph, outfile)
 
 
