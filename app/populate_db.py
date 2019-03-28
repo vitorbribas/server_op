@@ -73,6 +73,66 @@ def is_new_method(method):
         return True
 
 
+def prepare_method_graph(id):
+    SCENARIO_GROUP = 10
+    METHOD_GROUP = 15
+
+    graph = {
+        "nodes": [],
+        "links": []
+    }
+
+    method = Method.objects.get(id=id)
+
+    node = {
+        "id": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
+        "cod": method.id,
+        "name": method.method_name,
+        "group": METHOD_GROUP,
+        "executed": method.scenarios.count(),
+        "size": 1
+    }
+
+    graph['nodes'].append(node)
+    for scenario in method.scenarios.all():
+        node = {
+            "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + str(scenario.line))),
+            "cod": scenario.id,
+            "name": scenario.scenario_title,
+            "group": SCENARIO_GROUP,
+            "size": len(scenario.executed_methods.all())
+        }
+        if node not in graph['nodes']:
+            graph['nodes'].append(node)
+
+        link = {
+            "source": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
+            "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + str(scenario.line))),
+            "value": 2
+        }
+        graph['links'].append(link)
+
+
+        node = {
+            "id": re.sub('[^A-Za-z0-9]+', '', scenario.feature.path_name),
+            'cod': scenario.feature.id,
+            "name": scenario.feature.feature_name,
+            "group": 5,
+            "size": get_size(scenario.feature.simple_scenarios.all())
+        }
+        if node not in graph['nodes']:
+            graph['nodes'].append(node)
+
+        link = {
+            "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + str(scenario.line))),
+            "target": re.sub('[^A-Za-z0-9]+', '', scenario.feature.path_name),
+            "value": 2
+        }
+        graph['links'].append(link)
+    with open('app/static/method_graph.json', 'w') as outfile:
+        json.dump(graph, outfile)
+
+
 def prepare_feature_graph(id):
     SCENARIO_GROUP = 10
     METHOD_GROUP = 15

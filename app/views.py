@@ -10,7 +10,7 @@ from rest_framework.utils import json
 
 from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method
-from app.populate_db import create_entities, prepare_graph, prepare_feature_graph
+from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph
 from app.tree_object import create_chart, create_nodes
 
 
@@ -72,6 +72,14 @@ def graph_features(request, id):
         "graph": graph
     }
     return render(request, 'graph_representation.html', context)
+
+
+def graph_method(request, id):
+    graph = prepare_method_graph(id)
+    context = {
+        "graph": graph
+    }
+    return render(request, 'graph_method.html', context)
 
 
 @api_view(["POST"])

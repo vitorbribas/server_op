@@ -1,0 +1,134 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% block title %} Projects {% endblock title %}
+
+{% block stylesheets %}
+    {{ block.super }}
+     <style>
+    .links line {
+      stroke: #999;
+      stroke-opacity: 1;
+    }
+    .nodes circle {
+      stroke: #fff;
+      stroke-width: 2px;
+    }
+     .block_graph{
+         background-color: whitesmoke;
+         width: 90%;
+         margin-left: 5%;
+     }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="block_graph" align="center">
+        <svg width="1200" height="600"></svg>
+
+    </div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+d3.json("{% static 'method_graph.json'%}", function(error, graph) {
+  if (error) throw error;
+  var link = svg.append("g")
+      .attr("class", "links")
+    .selectAll("line")
+    .data(graph.links)
+    .enter().append("line")
+      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+  var color_feature = d3.color("black");
+  var color_border = d3.color("white");
+  var color_scenario = d3.color("green");
+
+  var node = svg.append("g")
+      .attr("class", "nodes")
+    .selectAll("circle")
+    .data(graph.nodes)
+    .enter().append("circle")
+      .style("stroke", function (d) {
+          if(d.group == 5){
+              return color_feature;
+          }else if(d.group == 10){
+              return color_scenario;
+          }else{
+              return color_border;
+          }
+      })
+      .style("stroke-width", function (d) {
+          if(d.group == 5){
+              return 1;
+          }else{
+              return 1;
+          }
+      })
+      .attr("r", function (d) {
+          if(d.group == 10){
+              if(d.size < 10){
+                  return d.size
+              } else{
+                  return 10
+              }
+          }else if(d.group == 5) {
+              if(d.size < 10){
+                  return d.size
+              } else{
+                  return 10
+              }
+          }else{
+            return 3
+          }
+           })
+      .attr("fill", function(d) { return color(d.group); })
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+  node.append("title")
+      .text(function(d) { return d.name + '  [' + d.size.toString() + ' métodos]'});
+  simulation
+      .nodes(graph.nodes)
+      .on("tick", ticked);
+  simulation.force("link")
+      .links(graph.links);
+  function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+    node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+  }
+});
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+</script>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+
+{% endblock javascripts %}
