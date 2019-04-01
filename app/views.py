@@ -1,12 +1,7 @@
-from unittest import loader
 
-from django.forms import forms, FloatField
-from django.http import HttpResponse
 from django.shortcuts import render
-from rest_framework.compat import MinValueValidator, MaxValueValidator
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.utils import json
 
 from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method
