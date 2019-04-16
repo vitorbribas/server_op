@@ -116,11 +116,23 @@ d3.json("{% static 'method_graph.json'%}", function(error, graph) {
     var rect = tip.append("rect")
       .style("fill", "white")
       .style("stroke", "steelblue");
+    if(d.group == 10){
 
-    tip.append("text")
-      .text("Name: " + d.name)
-      .attr("dy", "1em")
-      .attr("x", 5);
+        tip.append("text")
+            .text("Scenario Name: " + d.name)
+            .attr("dy", "1em")
+            .attr("x", 5);
+    } else if(d.group == 5){
+        tip.append("text")
+            .text("Feature Name: " + d.name)
+            .attr("dy", "1em")
+            .attr("x", 5);
+    }else{
+        tip.append("text")
+            .text("Method Name: " + d.name)
+            .attr("dy", "1em")
+            .attr("x", 5);
+    }
 
     {#tip.append("text")#}
     {#  .text("Info: " + d.info)#}

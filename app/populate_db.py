@@ -26,7 +26,7 @@ def create_entities(project):
     feature = Feature()
 
     try:
-        print('------------------------- SE LIGA AQUI MANO NESSA TRETA -------------------------')
+        print('------------------------- Reading New Feature -------------------------')
         # print(project.data)
         loaded_json = json.loads(project.data)
         project = get_project(loaded_json)
@@ -59,7 +59,7 @@ def create_entities(project):
                     met = Method.objects.filter(method_name=method['method_name'], class_path=method['class_path'])
                     scenario.executed_methods.add(met[0])
 
-        print('------------------------- FOI NERVOSO -------------------------')
+        print('------------------------- DONE! -------------------------')
         return True
     except ValueError as e:
         return False

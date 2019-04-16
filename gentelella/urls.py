@@ -20,7 +20,6 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # app/ -> Genetelella UI and resources
-    # path('app/', include('app.urls', namespace='app')),
     path('', include('app.urls', namespace='app')),
+    path('covrel/', include('covrel.urls', namespace='covrel')),
 ]

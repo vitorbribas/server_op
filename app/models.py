@@ -146,4 +146,26 @@ class Method(models.Model):
     def get_count_spectra(self):
         return len(self.scenarios.all())
 
+    def get_spec_count_spectra(self):
+        return len(self.specs.all())
+
+    objects = models.Manager()
+
+
+class Spec(models.Model):
+    project = models.ForeignKey('app.Project', verbose_name='Project', blank=True, related_name='specs',
+                                on_delete=models.CASCADE, null=True)
+    key = models.CharField(max_length=300, blank=True, null=True)
+    file = models.CharField(max_length=200, blank=True, null=True)
+    description = models.CharField(max_length=200, blank=True, null=True)
+    line = models.IntegerField()
+    executed_methods = models.ManyToManyField('app.Method', verbose_name='Metodos', blank=True,
+                                              related_name='specs')
+
+    def __str__(self):
+        return self.description
+
+    def obj_dict(self):
+        return self.__dict__
+
     objects = models.Manager()
