@@ -40,7 +40,7 @@ def create_entities(project):
         features_db = Feature.objects.filter(path_name=feature.path_name).filter(project=feature.project)
         if not features_db:
             feature.save()
-        print('SALVOU!')
+
         for each_scenario in loaded_json['scenarios']:
             scenario = SimpleScenario()
             scenario.feature = feature

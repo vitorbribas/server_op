@@ -51,7 +51,7 @@ def create_features(parents):
 def create_scenarios(feature):
     nodes = []
     scenarios = SimpleScenario.objects.filter(feature=feature)
-    print('quantidade de cenarios: ', len(scenarios))
+    print('Number of scenarios: ', len(scenarios))
     for scenario in scenarios:
         nodes.append({'text': {'name': scenario.scenario_title},
                       'children': create_methods(scenario)})
