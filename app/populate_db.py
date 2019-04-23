@@ -6,6 +6,29 @@ from rest_framework.utils import json
 from app.models import Feature, SimpleScenario, Method, Project
 
 
+def save_methods(methods):
+    """
+    Save all methods of a project to avoid duplications
+    :param methods: json with all methods
+    :return: True of False
+    """
+    print('------------------------- Saving Methods -------------------------')
+    loaded_json = json.loads(methods.data)
+    for method in loaded_json:
+        print('.', ' ')
+        base = Method.objects.filter(method_id=method['method_id'])
+        if len(base) > 0:
+            print('Método já existe: ', method['method_id'])
+            print('Olha ele na base: ', base[0].method_id)
+        else:
+            new_method = Method()
+            new_method.class_path = method['class_path']
+            new_method.method_name = method['method_name']
+            new_method.class_name = method['class_name']
+            new_method.method_id = method['method_id']
+            new_method.save()
+
+
 def get_project(loaded_json):
     name = loaded_json['project']['name']
     language = loaded_json['project']['language']
@@ -48,16 +71,16 @@ def create_entities(project):
             scenario.line = each_scenario['line']
             scenario.save()
             for method in each_scenario['executed_methods']:
-                if is_new_method(method):
-                    met = Method()
-                    met.method_name = method['method_name']
-                    met.class_name = method['class_name']
-                    met.class_path = method['class_path']
-                    met.save()
-                    scenario.executed_methods.add(met)
-                else:
-                    met = Method.objects.filter(method_name=method['method_name'], class_path=method['class_path'])
-                    scenario.executed_methods.add(met[0])
+                # if is_new_method(method):
+                #     met = Method()
+                #     met.method_name = method['method_name']
+                #     met.class_name = method['class_name']
+                #     met.class_path = method['class_path']
+                #     met.save()
+                #     scenario.executed_methods.add(met)
+                # else:
+                met = Method.objects.filter(method_id=method['method_id'])
+                scenario.executed_methods.add(met[0])
 
         print('------------------------- DONE! -------------------------')
         return True
@@ -66,7 +89,7 @@ def create_entities(project):
 
 
 def is_new_method(method):
-    methods = Method.objects.filter(method_name=method['method_name'], class_path=method['class_path'])
+    methods = Method.objects.filter(method_id=method['method_id'])
     if len(methods) > 0:
         return False
     else:

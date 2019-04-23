@@ -128,6 +128,7 @@ class Step(models.Model):
 
 class Method(models.Model):
     method_name = models.CharField(max_length=100, blank=True, null=True)
+    method_id = models.CharField(max_length=300, blank=False, null=False)
     class_name = models.CharField(max_length=200, blank=True, null=True)
     class_path = models.CharField(max_length=200, blank=True, null=True)
 

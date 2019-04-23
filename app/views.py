@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method
-from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph
+from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph, save_methods
 from app.tree_object import create_chart, create_nodes
 
 
@@ -84,12 +84,19 @@ def create_project(project):
     return Response(result)
 
 
+@api_view(["POST"])
+def create_methods(methods):
+
+    result = save_methods(methods)
+    return Response(result)
+
+
 def insert_probabilities(request, id):
     context = {}
     features = Feature.objects.filter(project=id)
 
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         # if 'features' in request.POST:
         #     for feature in features:
         #         feature.probability = float(request.POST['features'][feature.path_name])

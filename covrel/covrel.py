@@ -30,9 +30,9 @@ def include_new_spec(spec):
     try:
         loaded_json = json.loads(spec.data)
         project_name = loaded_json['project']['name']
-        project = Project.objects.get(name=project_name)
+        project = Project.objects.filter(name=project_name)
 
-        if project:
+        if len(project) > 0:
             print('Project already exists: ', project.name)
             it = Spec()
             it.key = loaded_json['key']
@@ -50,20 +50,20 @@ def include_new_spec(spec):
 
             for method in loaded_json['executed_methods']:
                 print(method['method_name'])
-                if is_new_method(method):
-                    print('New Method!')
-                    met = Method()
-                    met.method_name = method['method_name']
-                    met.class_name = method['class_name']
-                    met.class_path = method['class_path']
-                    met.save()
+                # if is_new_method(method):
+                #     print('New Method!')
+                #     met = Method()
+                #     met.method_name = method['method_name']
+                #     met.class_name = method['class_name']
+                #     met.class_path = method['class_path']
+                #     met.save()
+                #     it.executed_methods.add(met)
+                # else:
+                #     print('Method already exists!')
+                met = Method.objects.get(method_id=method['method_id'])
+                print('Getting Method..')
+                if met:
                     it.executed_methods.add(met)
-                else:
-                    print('Method already exists!')
-                    met = Method.objects.get(method_name=method['method_name'], class_path=method['class_path'])
-                    print('Getting..')
-                    if met:
-                        it.executed_methods.add(met)
             print('Saving Spec!')
             it.save()
         else:
