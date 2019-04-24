@@ -99,7 +99,7 @@ def is_new_method(method):
 def prepare_method_graph(id):
     SCENARIO_GROUP = 10
     METHOD_GROUP = 15
-
+    print('Preparing Method Graph...')
     graph = {
         "nodes": [],
         "links": []
@@ -118,8 +118,9 @@ def prepare_method_graph(id):
 
     graph['nodes'].append(node)
     for scenario in method.scenarios.all():
+        feature = scenario.feature
         node = {
-            "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + str(scenario.line))),
+            "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
             "cod": scenario.id,
             "name": scenario.scenario_title,
             "group": SCENARIO_GROUP,
@@ -130,25 +131,24 @@ def prepare_method_graph(id):
 
         link = {
             "source": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
-            "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + str(scenario.line))),
+            "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
             "value": 2
         }
         graph['links'].append(link)
 
-
         node = {
-            "id": re.sub('[^A-Za-z0-9]+', '', scenario.feature.path_name),
-            'cod': scenario.feature.id,
-            "name": scenario.feature.feature_name,
+            "id": re.sub('[^A-Za-z0-9]+', '', feature.path_name),
+            'cod': feature.id,
+            "name": feature.feature_name,
             "group": 5,
-            "size": get_size(scenario.feature.simple_scenarios.all())
+            "size": get_size(feature.simple_scenarios.all())
         }
         if node not in graph['nodes']:
             graph['nodes'].append(node)
 
         link = {
-            "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + str(scenario.line))),
-            "target": re.sub('[^A-Za-z0-9]+', '', scenario.feature.path_name),
+            "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+            "target": re.sub('[^A-Za-z0-9]+', '', feature.path_name),
             "value": 2
         }
         graph['links'].append(link)
