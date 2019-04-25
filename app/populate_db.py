@@ -1,5 +1,6 @@
 import re
 
+from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.utils import json
 
@@ -46,6 +47,7 @@ def get_project(loaded_json):
 
 
 def create_entities(project):
+
     feature = Feature()
 
     try:
@@ -69,7 +71,15 @@ def create_entities(project):
             scenario.feature = feature
             scenario.scenario_title = each_scenario['scenario_title']
             scenario.line = each_scenario['line']
-            scenario.save()
+            criterion1 = Q(scenario_title=scenario.scenario_title)
+            criterion2 = Q(feature=scenario.feature)
+            base = SimpleScenario.objects.filter(criterion1 & criterion2)
+            if len(base) > 0:
+                print('Scenario Already exists!')
+                base[0] = scenario
+            else:
+                print('Scenario: ', scenario.scenario_title)
+                scenario.save()
             for method in each_scenario['executed_methods']:
                 # if is_new_method(method):
                 #     met = Method()
@@ -120,7 +130,7 @@ def prepare_method_graph(id):
     for scenario in method.scenarios.all():
         feature = scenario.feature
         node = {
-            "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+            "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
             "cod": scenario.id,
             "name": scenario.scenario_title,
             "group": SCENARIO_GROUP,
@@ -131,7 +141,7 @@ def prepare_method_graph(id):
 
         link = {
             "source": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
-            "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+            "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
             "value": 2
         }
         graph['links'].append(link)
@@ -147,11 +157,12 @@ def prepare_method_graph(id):
             graph['nodes'].append(node)
 
         link = {
-            "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+            "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
             "target": re.sub('[^A-Za-z0-9]+', '', feature.path_name),
             "value": 2
         }
         graph['links'].append(link)
+
     with open('app/static/method_graph.json', 'w') as outfile:
         json.dump(graph, outfile)
 
@@ -185,7 +196,7 @@ def prepare_feature_graph(id):
         methods = scenario.executed_methods.all()
         print('Scenario ', scenario.scenario_title, ': ', len(methods), ' executed methods.')
         node = {
-            "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+            "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
             "cod": scenario.id,
             "name": scenario.scenario_title,
             "group": SCENARIO_GROUP,
@@ -197,7 +208,7 @@ def prepare_feature_graph(id):
         # Create links between feature and scenarios
         link = {
             "source": re.sub('[^A-Za-z0-9]+', '', feature.path_name),
-            "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+            "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
             "value": 2
         }
         graph['links'].append(link)
@@ -215,7 +226,7 @@ def prepare_feature_graph(id):
                 graph['nodes'].append(node)
 
             link = {
-                "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+                "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
                 "target": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
                 "value": 3
             }
@@ -253,7 +264,7 @@ def prepare_graph(id):
         for scenario in scenarios:
             methods = scenario.executed_methods.all()
             node = {
-                "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+                "id": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
                 "cod": scenario.id,
                 "name": scenario.scenario_title,
                 "group": SCENARIO_GROUP,
@@ -265,7 +276,7 @@ def prepare_graph(id):
             # Create links between feature and scenarios
             link = {
                 "source": re.sub('[^A-Za-z0-9]+', '', feature.feature_name),
-                "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+                "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
                 "value": 3
             }
             graph['links'].append(link)
@@ -282,7 +293,7 @@ def prepare_graph(id):
                     graph['nodes'].append(node)
 
                 link = {
-                    "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.feature_name)),
+                    "source": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
                     "target": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
                     "value": 3
                 }
