@@ -38,6 +38,10 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody().strength(-140))
     .force("center", d3.forceCenter(width / 2, height / 2))
 
+var tooltip = d3.select("body")
+	.append("div")
+	.attr("class", "tooltip")
+	.style("opacity", 0);
 
 d3.json("{% static 'data2.json'%}", function(error, graph) {
   if (error) throw error;
@@ -93,7 +97,18 @@ d3.json("{% static 'data2.json'%}", function(error, graph) {
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
-          .on("end", dragended));
+          .on("end", dragended))
+      .on('mouseover.fade', fade(0.1))
+    .on("mouseout.tooltip", function() {
+        tooltip.transition()
+	        .duration(100)
+	        .style("opacity", 0);
+	    })
+  	.on('mouseout.fade', fade(1))
+	    .on("mousemove", function() {
+	      tooltip.style("left", (d3.event.pageX) + "px")
+	        .style("top", (d3.event.pageY + 10) + "px");
+	    });
   node.append("title")
       .text(function(d) { return d.name + '  [' + d.size.toString() + ' métodos]'});
   simulation
@@ -167,7 +182,31 @@ d3.json("{% static 'data2.json'%}", function(error, graph) {
         .attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
   }
+
+  const linkedByIndex = {};
+  graph.links.forEach(d => {
+    linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
+  });
+
+  function isConnected(a, b) {
+      console.log(a.index);
+    return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
+  }
+    function fade(opacity) {
+    return d => {
+      node.style('stroke-opacity', function (o) {
+        const thisOpacity = isConnected(d, o) ? 1 : opacity;
+        this.setAttribute('fill-opacity', thisOpacity);
+        return thisOpacity;
+      });
+
+      link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
+
+    };
+  }
+
 });
+
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
   d.fx = d.x;
@@ -179,8 +218,8 @@ function dragged(d) {
 }
 function dragended(d) {
   if (!d3.event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
+  {#d.fx = null;#} {# Comentei para que possamos fixar os pontos após arrastar eles. #}
+  {#d.fy = null;#}
 }
 </script>
 {% endblock content %}
