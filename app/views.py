@@ -61,6 +61,14 @@ def bubble_chart(request, id):
     return render(request, 'bubble_chart.html', context)
 
 
+def graph(request, id):
+    graph = prepare_graph(id)
+    context = {
+        "graph": graph
+    }
+    return render(request, 'full_graph.html', context)
+
+
 def graph_features(request, id):
     graph = prepare_feature_graph(id)
     context = {

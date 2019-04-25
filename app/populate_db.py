@@ -253,7 +253,7 @@ def prepare_graph(id):
     for feature in features:
         scenarios = SimpleScenario.objects.filter(feature=feature)
         node = {
-            "id": re.sub('[^A-Za-z0-9]+', '', feature.feature_name),
+            "id": re.sub('[^A-Za-z0-9]+', '', feature.path_name),
             "cod": feature.id,
             "name": feature.feature_name,
             "group": FEATURE_GROUP,
@@ -275,7 +275,7 @@ def prepare_graph(id):
 
             # Create links between feature and scenarios
             link = {
-                "source": re.sub('[^A-Za-z0-9]+', '', feature.feature_name),
+                "source": re.sub('[^A-Za-z0-9]+', '', feature.path_name),
                 "target": re.sub('[^A-Za-z0-9]+', '', (scenario.scenario_title + feature.path_name)),
                 "value": 3
             }
