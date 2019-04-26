@@ -5,7 +5,8 @@ from rest_framework.response import Response
 
 from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method
-from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph, save_methods
+from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph, save_methods, \
+    distribute_prob
 from app.tree_object import create_chart, create_nodes
 
 
@@ -59,6 +60,11 @@ def bubble_chart(request, id):
         "graph": graph
     }
     return render(request, 'bubble_chart.html', context)
+
+
+def random_prob(request, id):
+    distribute_prob(id)
+    return render(request, 'index.html')
 
 
 def graph(request, id):

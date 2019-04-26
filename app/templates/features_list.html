@@ -73,7 +73,7 @@
                     <td>{{ feature.feature_name }}</td>
                     <td>{{ feature.language }}</td>
                     <td><a href="{% url 'app:list_scenarios' feature.id %}">{{ feature.simple_scenarios.all|length }}</a></td>
-                    <td>{{ feature.probability }}</td>
+                    <td>{{ feature.probability }}%</td>
                   </tr>
                   {% endfor %}
 

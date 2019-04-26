@@ -1,4 +1,5 @@
 import re
+from random import randint
 
 from django.db.models import Q
 from rest_framework.response import Response
@@ -312,3 +313,50 @@ def get_size(scenarios):
                 methods_total.append(meth)
 
     return len(methods_total)
+
+
+def distribute_prob_scenarios(feature):
+    scenarios = SimpleScenario.objects.filter(feature=feature)
+    i = len(scenarios)
+    print('Quantidade de Cenarios: ', i)
+    aux = {}
+    total = 0
+    for count in range(i):
+        aux[count] = randint(1, 100)
+        total += aux[count]
+    results = normalize(total, aux, feature.probability)
+    total = 0
+    for result, i in enumerate(results):
+        scenarios[i].probability = results[i]
+        total += scenarios[i].probability
+        print('scenario Probability: ', scenarios[i].probability)
+        scenarios[i].save()
+    print('Total Scenarios: ', total)
+
+
+def distribute_prob(id):
+    features = Feature.objects.filter(project=id)
+    i = len(features)
+    aux = {}
+    total = 0
+    for count in range(i):
+        aux[count] = randint(1, 100)
+        total += aux[count]
+    results = normalize(total, aux, 100)
+    total = 0
+    for result, i in enumerate(results):
+        features[i].probability = results[i]
+        total += features[i].probability
+        features[i].save()
+        print('Feature Prob: ', features[i].probability)
+        distribute_prob_scenarios(features[i])
+        print('-----------------------------------------')
+    print('Total features: ', total)
+
+
+def normalize(total, aux, base):
+    for i in range(len(aux)):
+        aux[i] = (aux[i]/total) * base
+    return aux
+
+
