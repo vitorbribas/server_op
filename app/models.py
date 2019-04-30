@@ -26,7 +26,7 @@ class Feature(models.Model):
     language = models.CharField(max_length=50, blank=True, null=True)
     user_story = models.CharField(max_length=300, blank=True, null=True)
     background = models.CharField(max_length=300, blank=True, null=True)
-    probability = models.FloatField(validators=[MinValueValidator(0.1), MaxValueValidator(100)], blank=True,
+    probability = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100)], blank=True,
                                     null=True, default=0)
     project = models.ForeignKey('app.Project', verbose_name='Project', blank=True, related_name='features',
                                 on_delete=models.CASCADE, null=True)
@@ -132,7 +132,7 @@ class Method(models.Model):
     class_name = models.CharField(max_length=200, blank=True, null=True)
     class_path = models.CharField(max_length=200, blank=True, null=True)
 
-    probability = models.FloatField(validators=[MinValueValidator(0.1), MaxValueValidator(100)], blank=True, null=True,
+    probability = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100)], blank=True, null=True,
                                     default=0)
 
     def __str__(self):
