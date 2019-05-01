@@ -20,6 +20,7 @@ urlpatterns = [
     path('createproject', views.create_project),
     path('createmethods', views.create_methods),
     path('fullgraph/<int:id>', views.graph, name='full_graph'),
+    path('specgraph/<int:id>', views.graph_specs, name='spec_graph'),
     path('graphfeatures/<int:id>', views.graph_features, name='graph'),
     path('graphmethods/<int:id>', views.graph_method, name='graph_method'),
     path('bublechart/<int:id>', views.bubble_chart, name='bubble'),

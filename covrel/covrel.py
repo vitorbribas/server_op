@@ -33,6 +33,7 @@ def include_new_spec(spec):
         project = Project.objects.filter(name=project_name)
 
         if len(project) > 0:
+            project = project[0]
             print('Project already exists: ', project.name)
             it = Spec()
             it.key = loaded_json['key']

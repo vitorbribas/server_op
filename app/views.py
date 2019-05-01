@@ -3,10 +3,11 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from app.analyze_project import get_methods_without_features, get_all_tested_methods, get_features_without_methods
 from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method
 from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph, save_methods, \
-    distribute_prob
+    distribute_prob, prepare_spec_graph
 from app.tree_object import create_chart, create_nodes
 
 
@@ -35,7 +36,17 @@ def show_tree(request, id):
 
 def show_project(request, id):
     project = Project.objects.get(pk=id)
-    context = {"project": project}
+    met_features = get_methods_without_features(id)
+    met_specs = get_all_tested_methods(id)
+    methods = project.methods.all()
+    specs = project.specs.all()
+    features_without_methods = get_features_without_methods(id)
+    context = {"project": project,
+               "met_features": met_features,
+               "met_specs": met_specs,
+               "methods": methods,
+               "specs": specs,
+               "features_without_methods": features_without_methods}
     return render(request, 'project_detail.html', context)
 
 
@@ -81,6 +92,14 @@ def graph_features(request, id):
         "graph": graph
     }
     return render(request, 'graph_representation.html', context)
+
+
+def graph_specs(request, id):
+    graph = prepare_spec_graph(id)
+    context = {
+        "graph": graph
+    }
+    return render(request, 'graph_specs.html', context)
 
 
 def graph_method(request, id):
@@ -134,5 +153,4 @@ def insert_probabilities(request, id):
     # print(context)
     # return render(request, "demo/dynamic.html", context)
     return render(request, 'insert_prob.html', context)
-
 

@@ -134,6 +134,8 @@ class Method(models.Model):
 
     probability = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100)], blank=True, null=True,
                                     default=0)
+    project = models.ForeignKey('app.Project', verbose_name='Project', blank=True, related_name='methods',
+                                on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.method_name

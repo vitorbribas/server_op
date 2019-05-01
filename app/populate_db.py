@@ -8,15 +8,16 @@ from rest_framework.utils import json
 from app.models import Feature, SimpleScenario, Method, Project
 
 
-def save_methods(methods):
+def save_methods(project):
     """
     Save all methods of a project to avoid duplications
     :param methods: json with all methods
     :return: True of False
     """
     print('------------------------- Saving Methods -------------------------')
-    loaded_json = json.loads(methods.data)
-    for method in loaded_json:
+    loaded_json = json.loads(project.data)
+    project = get_project(loaded_json)
+    for method in loaded_json['methods']:
         print('.', ' ')
         base = Method.objects.filter(method_id=method['method_id'])
         if len(base) > 0:
@@ -28,13 +29,14 @@ def save_methods(methods):
             new_method.method_name = method['method_name']
             new_method.class_name = method['class_name']
             new_method.method_id = method['method_id']
+            new_method.project = project
             new_method.save()
 
 
-def get_project(loaded_json):
-    name = loaded_json['project']['name']
-    language = loaded_json['project']['language']
-    repository = loaded_json['project']['repository']
+def get_project(project_json):
+    name = project_json['name']
+    language = project_json['language']
+    repository = project_json['repository']
     project = Project.objects.filter(name=name)
     if project:
         return project[0]
@@ -55,7 +57,7 @@ def create_entities(project):
         print('------------------------- Reading New Feature -------------------------')
         # print(project.data)
         loaded_json = json.loads(project.data)
-        project = get_project(loaded_json)
+        project = get_project(loaded_json['project'])
         feature.project = project
 
         feature.path_name = loaded_json['path_name']
@@ -165,6 +167,57 @@ def prepare_method_graph(id):
         graph['links'].append(link)
 
     with open('app/static/method_graph.json', 'w') as outfile:
+        json.dump(graph, outfile)
+
+
+def prepare_spec_graph(id):
+    SPEC_GROUP = 20
+    METHOD_GROUP = 15
+
+    graph = {
+        "nodes": [],
+        "links": []
+    }
+
+    methods = Method.objects.filter(project=id)
+
+    for method in methods:
+
+        node = {
+            "id": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
+            "cod": method.id,
+            "name": method.method_name,
+            "group": METHOD_GROUP,
+            "executed": method.scenarios.count(),
+            "size": 1
+        }
+        if node not in graph['nodes']:
+            graph['nodes'].append(node)
+
+        for it in method.specs.all():
+            node = {
+                "id": re.sub('[^A-Za-z0-9]+', '', it.description + it.file + str(it.line)),
+                'cod': it.id,
+                "name": it.description,
+                "group": SPEC_GROUP,
+                "size": len(it.executed_methods.all())
+            }
+            if node not in graph['nodes']:
+                graph['nodes'].append(node)
+            else:
+                print('já ta')
+
+            # Create links between spec and method
+            link = {
+                "source": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
+                "target": re.sub('[^A-Za-z0-9]+', '', (it.description + it.file + str(it.line))),
+                "value": 2
+            }
+            graph['links'].append(link)
+
+    print('Number of nodes: ', len(graph['nodes']))
+    print('Number of links: ', len(graph['links']))
+    with open('app/static/spec_graph.json', 'w') as outfile:
         json.dump(graph, outfile)
 
 
