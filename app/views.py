@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from app.analyze_project import get_methods_without_features, get_all_tested_methods, get_features_without_methods
 from app.forms import FeatureForm
-from app.models import Project, Feature, SimpleScenario, Method
+from app.models import Project, Feature, SimpleScenario, Method, Spec
 from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph, save_methods, \
     distribute_prob, prepare_spec_graph
 from app.tree_object import create_chart, create_nodes
@@ -63,6 +63,13 @@ def list_scenarios(request, id):
                "scenarios": scenarios
                }
     return render(request, 'cenarios_list.html', context)
+
+
+def list_specs(request, id):
+    specs = Spec.objects.filter(project=id)
+    context = {"specs": specs
+               }
+    return render(request, 'specs_list.html', context)
 
 
 def bubble_chart(request, id):
