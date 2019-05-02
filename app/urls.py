@@ -18,6 +18,7 @@ urlpatterns = [
     path('features/<int:id>', views.list_features, name='features'),
     path('scenarios/<int:id>', views.list_scenarios, name='list_scenarios'),
     path('specs/<int:id>', views.list_specs, name='list_specs'),
+    path('methods/<int:id>', views.list_methods, name='list_methods'),
     path('createproject', views.create_project),
     path('createmethods', views.create_methods),
     path('fullgraph/<int:id>', views.graph, name='full_graph'),

@@ -141,6 +141,7 @@ class Method(models.Model):
         return self.method_name
 
     def get_probability(self):
+        self.probability = 0
         for scenario in self.scenarios.all():
             self.probability += scenario.probability
 

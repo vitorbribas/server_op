@@ -62,3 +62,21 @@ def get_features_without_methods(id):
         if flag == 0:
             features_without_methods.add(feature)
     return features_without_methods
+
+
+def distribute_importance_group(methods):
+    groups = {
+        "low": [],
+        "medium": [],
+        "high": []
+    }
+
+    for method in methods:
+        if method.get_probability() < 30:
+            groups['low'].append(method)
+        elif method.get_probability() < 70:
+            groups['medium'].append(method)
+        else:
+            groups['high'].append(method)
+
+    return groups
