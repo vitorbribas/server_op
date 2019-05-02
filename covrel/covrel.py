@@ -14,15 +14,27 @@ def group_methods(id):
             for me in methds:
                 methods.add(me)
     methods = list(methods)
-    methods.sort(key=lambda x: x.get_count_spectra(), reverse=True)
+    methods.sort(key=lambda x: x.get_spec_count_spectra(), reverse=True)
 
-    part = int(len(methods)/3)
-
+    # part = int(len(methods)/3)
     groups = {
-        "high": methods[:part],
-        "medium": methods[part:(part+part)],
-        "low": methods[(part+part):]
+        "high": [],
+        "medium": [],
+        "low": []
     }
+
+    max = methods[0].get_spec_count_spectra()
+
+    part = max/3
+
+    for method in methods:
+        if method.get_spec_count_spectra() < part:
+            groups['low'].append(method)
+        elif method.get_spec_count_spectra() < (part*2):
+            groups['medium'].append(method)
+        else:
+            groups['high'].append(method)
+
     return groups
 
 
