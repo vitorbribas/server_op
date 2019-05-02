@@ -131,6 +131,7 @@ class Method(models.Model):
     method_id = models.CharField(max_length=300, blank=False, null=False)
     class_name = models.CharField(max_length=200, blank=True, null=True)
     class_path = models.CharField(max_length=200, blank=True, null=True)
+    abc_score = models.FloatField(blank=True, null=True, default=0)
 
     probability = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100)], blank=True, null=True,
                                     default=0)
