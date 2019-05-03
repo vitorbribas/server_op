@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from app.analyze_project import get_methods_without_features, get_all_tested_methods, get_features_without_methods, \
-    distribute_importance_group
+    distribute_importance_group, number_tests_by_group
 from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method, Spec
 from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph, save_methods, \
@@ -79,9 +79,11 @@ def list_methods(request, id):
     sorted_methods = sorted(methods, key=lambda t: t.get_probability(), reverse=True)
 
     importance_groups = distribute_importance_group(sorted_methods)
+    number_tests = number_tests_by_group(importance_groups)
 
     project = Project.objects.filter(id=id)
     context = {"methods": importance_groups,
+               "number_tests": number_tests,
                "project": project
                }
     return render(request, 'methods_list.html', context)

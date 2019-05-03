@@ -80,3 +80,35 @@ def distribute_importance_group(methods):
             groups['high'].append(method)
 
     return groups
+
+
+def number_tests_by_group(groups):
+    result = {
+        "high": 0,
+        "medium": 0,
+        "low": 0
+    }
+
+    for method in groups['high']:
+        result['high'] += method.get_spec_count_spectra()
+
+    for method in groups['medium']:
+        result['medium'] += method.get_spec_count_spectra()
+
+    for method in groups['low']:
+        result['low'] += method.get_spec_count_spectra()
+
+    if len(groups['high']) > 0:
+        result['high'] = result['high']/len(groups['high'])
+    else:
+        result['high'] = 0
+    if len(groups['medium']) > 0:
+        result['medium'] = result['medium'] / len(groups['medium'])
+    else:
+        result['medium'] = 0
+    if len(groups['low']) > 0:
+        result['low'] = result['low'] / len(groups['low'])
+    else:
+        result['low'] = 0
+
+    return result
