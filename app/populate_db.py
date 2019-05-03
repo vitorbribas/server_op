@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.utils import json
 
-from app.models import Feature, SimpleScenario, Method, Project
+from app.models import Feature, SimpleScenario, Method, Project, Spec
 
 
 def save_methods(project):
@@ -27,6 +27,7 @@ def save_methods(project):
             new_method = Method()
             new_method.class_path = method['class_path']
             new_method.method_name = method['method_name']
+            new_method.content = method['content']
             new_method.class_name = method['class_name']
             new_method.method_id = method['method_id']
             if method['abc_score']:
@@ -183,38 +184,35 @@ def prepare_spec_graph(id):
         "links": []
     }
 
-    methods = Method.objects.filter(project=id)
+    specs = Spec.objects.filter(project=id)
 
-    for method in methods:
-
+    for spec in specs:
         node = {
-            "id": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
-            "cod": method.id,
-            "name": method.method_name,
-            "group": METHOD_GROUP,
-            "executed": method.scenarios.count(),
-            "size": 1
+            "id": re.sub('[^A-Za-z0-9]+', '', (spec.description + spec.file + str(spec.line))),
+            'cod': spec.id,
+            "name": spec.description,
+            "group": SPEC_GROUP,
+            "size": len(spec.executed_methods.all())
         }
         if node not in graph['nodes']:
             graph['nodes'].append(node)
 
-        for it in method.specs.all():
+        for method in spec.executed_methods.all():
             node = {
-                "id": re.sub('[^A-Za-z0-9]+', '', it.description + it.file + str(it.line)),
-                'cod': it.id,
-                "name": it.description,
-                "group": SPEC_GROUP,
-                "size": len(it.executed_methods.all())
+                "id": re.sub('[^A-Za-z0-9]+', '', (method.method_id + method.class_path)),
+                "cod": method.id,
+                "name": method.method_name,
+                "group": METHOD_GROUP,
+                "executed": method.scenarios.count(),
+                "size": 1
             }
             if node not in graph['nodes']:
                 graph['nodes'].append(node)
-            else:
-                print('já ta')
 
-            # Create links between spec and method
+                # Create links between spec and method
             link = {
-                "source": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name)),
-                "target": re.sub('[^A-Za-z0-9]+', '', (it.description + it.file + str(it.line))),
+                "source": re.sub('[^A-Za-z0-9]+', '', (spec.description + spec.file + str(spec.line))),
+                "target": re.sub('[^A-Za-z0-9]+', '', (method.method_id + method.class_path)),
                 "value": 2
             }
             graph['links'].append(link)
