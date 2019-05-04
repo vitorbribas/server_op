@@ -42,22 +42,26 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th style="width: 5%">Name</th>
+                    <th style="word-wrap: break-word;  max-width: 150px;">Name</th>
 {#                    <th>Content</th>#}
                     <th>IF</th>
                     <th>probability</th>
-                    <th>ABC Score</th>
+                    <th style="word-wrap: break-word;  max-width: 60px;">ABC Score</th>
+                      <th>Complexity</th>
+                      <th>Lines</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for method in methods.high %}
                   <tr>
                     <th scope="row">{{ method.id }}</th>
-                    <td>{{ method.method_name }}</td>
+                    <td style="word-wrap: break-word;  max-width: 150px;">{{ method.method_name }}</td>
 {#                      <td>{{ method.content }}</td>#}
                       <td>{{ method.get_count_features_spectra }}</td>
                     <td>{{ method.get_probability }}%</td>
-                    <td>{{ method.abc_score }}</td>
+                    <td style="word-wrap: break-word;  max-width: 60px;">{{ method.abc_score }}</td>
+                  <td>{{ method.complexity }}</td>
+                  <td>{{ method.number_of_lines }}</td>
                   </tr>
                 {% endfor %}
                 </tbody>
@@ -80,22 +84,26 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Name</th>
+                    <th style="word-wrap: break-word;  max-width: 150px;">Name</th>
 {#                    <th>Class</th>#}
                     <th>IF</th>
                     <th>probability</th>
-                      <th>ABC Score</th>
+                      <th style="word-wrap: break-word;  max-width: 60px;">ABC Score</th>
+                      <th>Complexity</th>
+                      <th>Lines</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for method in methods.medium %}
                   <tr>
                     <th scope="row">{{ method.id }}</th>
-                    <td>{{ method.method_name }}</td>
+                    <td style="word-wrap: break-word;  max-width: 150px;">{{ method.method_name }}</td>
 {#                      <td>{{ method.class_name }}</td>#}
                       <td>{{ method.get_count_features_spectra }}</td>
                     <td>{{ method.get_probability }}%</td>
-                  <td>{{ method.abc_score }}</td>
+                  <td style="word-wrap: break-word;  max-width: 60px;">{{ method.abc_score }}</td>
+                  <td>{{ method.complexity }}</td>
+                  <td>{{ method.number_of_lines }}</td>
                   </tr>
                 {% endfor %}
                 </tbody>
@@ -119,22 +127,26 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Name</th>
+                    <th style="word-wrap: break-word;  max-width: 150px;">Name</th>
 {#                    <th>Content</th>#}
                     <th>IF</th>
                     <th>probability</th>
-                      <th>ABC Score</th>
+                      <th style="word-wrap: break-word;  max-width: 60px;">ABC Score</th>
+                      <th>Complexity</th>
+                      <th>Lines</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for method in methods.low %}
                   <tr>
                     <th scope="row">{{ method.id }}</th>
-                    <td>{{ method.method_name }}</td>
+                    <td style="word-wrap: break-word;  max-width: 150px;">{{ method.method_name }}</td>
 {#                    <td>{{ method.content }}</td>#}
                       <td>{{ method.get_count_features_spectra }}</td>
                     <td>{{ method.get_probability }}%</td>
-                  <td>{{ method.abc_score }}</td>
+                  <td style="word-wrap: break-word;  max-width: 60px;">{{ method.abc_score }}</td>
+                  <td>{{ method.complexity }}</td>
+                  <td>{{ method.number_of_lines }}</td>
                   </tr>
                 {% endfor %}
                 </tbody>

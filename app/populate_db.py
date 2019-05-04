@@ -30,10 +30,10 @@ def save_methods(project):
             new_method.content = method['content']
             new_method.class_name = method['class_name']
             new_method.method_id = method['method_id']
-            if method['abc_score']:
-                new_method.abc_score = method['abc_score']
-            else:
-                new_method.abc_score = 0
+            new_method.complexity = method['complexity']
+            new_method.number_of_lines = method['number_of_lines']
+            new_method.abc_score = method['abc_score']
+
             new_method.project = project
             new_method.save()
 

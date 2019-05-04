@@ -132,6 +132,8 @@ class Method(models.Model):
     class_name = models.CharField(max_length=200, blank=True, null=True)
     class_path = models.CharField(max_length=200, blank=True, null=True)
     abc_score = models.FloatField(blank=True, null=True, default=0)
+    complexity = models.FloatField(blank=True, null=True, default=0)
+    number_of_lines = models.IntegerField(blank=True, null=True, default=0)
     content = models.TextField(blank=True, null=True)
 
     probability = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100)], blank=True, null=True,
@@ -147,11 +149,12 @@ class Method(models.Model):
         for scenario in self.scenarios.all():
             self.probability += scenario.probability
 
-        return self.probability
+        return float("{0:.4f}".format(self.probability))
 
     def get_count_spectra(self):
         return len(self.scenarios.all())
 
+    # TODO incluir algoritmo no artigo.
     def get_count_features_spectra(self):
         scenarios = self.scenarios.all()
         features = set()
