@@ -1,4 +1,4 @@
-{% extends "base_site.html" %}
+{% extends "structure/base_site.html" %}
 {% load static %}
 {% block title %} Projects {% endblock title %}
 
@@ -35,7 +35,7 @@ var svg = d3.select("svg"),
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody().strength(-140))
+    .force("charge", d3.forceManyBody().strength(-100))
     .force("center", d3.forceCenter(width / 2, height / 2))
 
 var tooltip = d3.select("body")
@@ -50,7 +50,7 @@ d3.json("{% static 'data2.json'%}", function(error, graph) {
     .selectAll("line")
     .data(graph.links)
     .enter().append("line")
-      .attr("stroke-width", function(d) { return Math.sqrt(d.value/2); });
+      .attr("stroke-width", function(d) { return Math.sqrt(d.value/40); });
   var color_feature = d3.color("black");
   var color_border = d3.color("white");
   var color_scenario = d3.color("green");
@@ -79,18 +79,18 @@ d3.json("{% static 'data2.json'%}", function(error, graph) {
       .attr("r", function (d) {
           if(d.group == 10){ {# Cenário #}
               if(d.size < 10){
-                  return d.size*6 +3
+                  return d.size*3 +3
               } else{
                   return 15
               }
           }else if(d.group == 5) { {# Feature #}
               if(d.size < 10){
-                  return d.size*6 + 5
+                  return d.size*3 + 5
               } else{
-                  return 15
+                  return 10
               }
           }else{
-            return 5
+            return 3
           }
            })
       .attr("fill", function(d) { return color(d.group); })
@@ -135,17 +135,17 @@ d3.json("{% static 'data2.json'%}", function(error, graph) {
     if(d.group == 10){
 
         tip.append("text")
-            .text("Scenario Name: " + d.name)
+            .text("Scenario:" + d.identifier)
             .attr("dy", "1em")
             .attr("x", 5);
     } else if(d.group == 5){
         tip.append("text")
-            .text("Feature Name: " + d.name)
+            .text("Feature: " + d.identifier)
             .attr("dy", "1em")
             .attr("x", 5);
     }else{
         tip.append("text")
-            .text("Method Name: " + d.name)
+            .text("Method: " + d.identifier)
             .attr("dy", "1em")
             .attr("x", 5);
     }

@@ -134,6 +134,7 @@ class Method(models.Model):
     abc_score = models.FloatField(blank=True, null=True, default=0)
     complexity = models.FloatField(blank=True, null=True, default=0)
     number_of_lines = models.IntegerField(blank=True, null=True, default=0)
+    line = models.IntegerField(blank=True, null=True, default=0)
     content = models.TextField(blank=True, null=True)
 
     probability = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100)], blank=True, null=True,

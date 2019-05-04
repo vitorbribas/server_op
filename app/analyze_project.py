@@ -5,20 +5,19 @@ def get_methods_without_features(project):
     methods = Method.objects.filter(project=project)
     features = Feature.objects.filter(project=project)
 
-    executed = []
+    executed = set()
     for feature in features.all():
         for scenario in feature.simple_scenarios.all():
             for met in scenario.executed_methods.all():
-                executed.append(met.id)
+                executed.add(met.id)
 
-    executed = set(executed)
-    print('Executed:', executed)
+    print('Executed:', len(executed))
     not_executed = set()
 
     for method in methods.all():
         if method.id not in executed:
             not_executed.add(method.id)
-
+    print('Not executed: ', len(not_executed))
     result = {"executed": executed,
               "not_executed": not_executed}
 

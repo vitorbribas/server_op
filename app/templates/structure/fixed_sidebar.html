@@ -1,6 +1,6 @@
-{% extends "base_site.html" %}
+{% extends "structure/base_site.html" %}
 
-{% block title %} Fixed Footer {% endblock title %}
+{% block title %} Fixed Sidebar {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -8,14 +8,14 @@
   <link href="/static/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
 
-{% block body_class %}nav-md footer_fixed{% endblock body_class %}
+{% block sidebar_class %}nav-md menu_fixed{% endblock sidebar_class %}
 
 {% block content %}
   <div class="right_col" role="main">
     <div class="">
       <div class="page-title">
         <div class="title_left">
-          <h3>Fixed Footer <small> Just add class <strong>footer_fixed</strong></small></h3>
+          <h3>Fixed Sidebar <small> Just add class <strong>menu_fixed</strong></small></h3>
         </div>
       </div>
     </div>
