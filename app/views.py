@@ -41,13 +41,13 @@ def show_project(request, id):
     met_specs = get_all_tested_methods(id)
     methods = project.methods.all()
     specs = project.specs.all()
-    features_without_methods = get_features_without_methods(id)
+    # features_without_methods = get_features_without_methods(id)
     context = {"project": project,
                "met_features": met_features,
                "met_specs": met_specs,
                "methods": methods,
-               "specs": specs,
-               "features_without_methods": features_without_methods}
+               "specs": specs}
+               # "features_without_methods": features_without_methods}
     return render(request, 'project_detail.html', context)
 
 
@@ -87,6 +87,19 @@ def list_methods(request, id):
                "project": project
                }
     return render(request, 'methods_list.html', context)
+
+
+def all_methods(request, id):
+    methods = Method.objects.filter(project=id)
+    project = Project.objects.filter(id=id)
+
+    context = {
+        "methods": methods,
+        "project": project
+    }
+
+    return render(request, 'all_methods.html', context)
+
 
 
 def bubble_chart(request, id):

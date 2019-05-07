@@ -2679,22 +2679,23 @@ function init_morris_charts() {
 
         Morris.Bar({
             element: 'graph_bar_group',
+
             data: [
-                { "period": "2016-10-01", "licensed": 807, "sorned": 660 },
-                { "period": "2016-09-30", "licensed": 1251, "sorned": 729 },
-                { "period": "2016-09-29", "licensed": 1769, "sorned": 1018 },
-                { "period": "2016-09-20", "licensed": 2246, "sorned": 1461 },
-                { "period": "2016-09-19", "licensed": 2657, "sorned": 1967 },
-                { "period": "2016-09-18", "licensed": 3148, "sorned": 2627 },
-                { "period": "2016-09-17", "licensed": 3471, "sorned": 3740 },
-                { "period": "2016-09-16", "licensed": 2871, "sorned": 2216 },
-                { "period": "2016-09-15", "licensed": 2401, "sorned": 1656 },
-                { "period": "2016-09-10", "licensed": 2115, "sorned": 1022 }
+                { "folder": "Controllers", "bdds": 807, "specs": 660 },
+                { "folder": "Helpers", "bdds": 1251, "specs": 729 },
+                { "folder": "Models", "bdds": 1769, "specs": 1018 },
+                { "folder": "Serializers", "bdds": 2246, "specs": 1461 },
+                { "folder": "Uploaders", "bdds": 2657, "specs": 1967 },
+                { "folder": "Workers", "bdds": 3148, "specs": 2627 },
+                { "folder": "Mailers", "bdds": 3471, "specs": 3740 },
+                { "folder": "Presenters", "bdds": 2871, "specs": 2216 },
+                { "folder": "Services", "bdds": 2401, "specs": 1656 }
+                // { "folder": "2016-09-10", "bdds": 2115, "specs": 1022 }
             ],
-            xkey: 'period',
+            xkey: 'folder',
             barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
-            ykeys: ['licensed', 'sorned'],
-            labels: ['Licensed', 'SORN'],
+            ykeys: ['bdds', 'specs'],
+            labels: ['BDDs', 'SPECS'],
             hideHover: 'auto',
             xLabelAngle: 60,
             resize: true
@@ -3035,14 +3036,14 @@ function init_echarts() {
 
         echartBar.setOption({
             title: {
-                text: 'Graph title',
-                subtext: 'Graph Sub-text'
+                text: 'Effort by Folder',
+                subtext: ''
             },
             tooltip: {
                 trigger: 'axis'
             },
             legend: {
-                data: ['sales', 'purchases']
+                data: ['Specs', 'BDDs']
             },
             toolbox: {
                 show: false
@@ -3050,15 +3051,15 @@ function init_echarts() {
             calculable: false,
             xAxis: [{
                 type: 'category',
-                data: ['1?', '2?', '3?', '4?', '5?', '6?', '7?', '8?', '9?', '10?', '11?', '12?']
+                data: ['Controllers', 'Helpers', 'Models', 'Serializers', 'Uploaders', 'Workers', 'Mailers', 'Presenters', 'Services']
             }],
             yAxis: [{
                 type: 'value'
             }],
             series: [{
-                name: 'sales',
+                name: 'Specs',
                 type: 'bar',
-                data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+                data: [2.0, 4.9, 7.0, 23.2, 25.6, 2.0, 4.9, 7.0, 23.2, 25.6],
                 markPoint: {
                     data: [{
                         type: 'max',
@@ -3075,17 +3076,17 @@ function init_echarts() {
                     }]
                 }
             }, {
-                name: 'purchases',
+                name: 'BDDs',
                 type: 'bar',
-                data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+                data: [2.6, 5.9, 9.0, 26.4, 28.7, 2.6, 5.9, 9.0, 26.4, 28.7],
                 markPoint: {
                     data: [{
-                        name: 'sales',
+                        name: 'Specs',
                         value: 182.2,
                         xAxis: 7,
                         yAxis: 183,
                     }, {
-                        name: 'purchases',
+                        name: 'BDDs',
                         value: 2.3,
                         xAxis: 11,
                         yAxis: 3

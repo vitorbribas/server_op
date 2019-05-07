@@ -99,11 +99,9 @@ def create_entities(project):
                 #     met.save()
                 #     scenario.executed_methods.add(met)
                 # else:
-                print(method['method_id'])
                 met = Method.objects.filter(method_id=method['method_id'])
                 if len(met) < 1:
                     print('METHOD NOT FOUND! ', method['method_id'])
-                    input('Press something')
                 scenario.executed_methods.add(met[0])
 
         print('------------------------- DONE! -------------------------')

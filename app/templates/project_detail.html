@@ -71,31 +71,34 @@
                     <a href="{% url 'app:list_methods' project.id %}"><span class="value text-success"> {{ methods|length }} </span></a>
                   </li>
                   <li class="hidden-phone" style="width: 10%">
-                    <span class="name"> Features </span>
+                    <span class="name"> BDD Features </span>
                     <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ project.features.all|length }} </span></a>
                   </li>
-                    <li class="hidden-phone" style="width: 10%">
-                        <span class="name"> Specs </span>
+                    <li class="hidden-phone" style="word-wrap: break-word;  max-width: 15%;">
+                        <span class="name"> Unit/Integration Tests </span>
                         <a href="{% url 'app:list_specs' project.id %}"><span class="value text-success"> {{ specs|length }} </span></a>
                     </li>
                     <li class="hidden-phone" style="width: 10%">
                         <span class="name"> Covered Methods</span>
                         <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ met_specs.executed|length }} </span></a>
                       </li>
-                    <li class="hidden-phone" style="width: 10%">
+                    <li class="hidden-phone" style="word-wrap: break-word;  max-width: 20%;">
                         <span class="name"> Methods without Features </span>
-                        <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ met_features.not_executed|length }} </span></a>
+                        <a href="{% url 'app:features' project.id %} "><span class="value text-success"> {{ met_features.not_executed|length }} </span></a>
                       </li>
-                    <li class="hidden-phone" style="width: 10%">
-                        <span class="name"> Features without Methods</span>
-                        <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ features_without_methods|length }} </span></a>
-                      </li>
+{#                    <li class="hidden-phone" style="width: 10%">#}
+{#                        <span class="name"> Features without Methods</span>#}
+{#                        <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ features_without_methods|length }} </span></a>#}
+{#                      </li>#}
 
                 </ul>
                 <br />
 
-                <div id="mainb" style="height:350px;"></div>
+{#                <div id="mainb" style="height:350px; width: 100%;"></div>#}
 
+                  <div class="x_content1">
+                  <div id="graph_bar_group" style="width:100%; height:280px;"></div>
+                </div>
                 <div>
 
 {#                  <h4>Recent Activity</h4>#}
@@ -224,4 +227,6 @@
   {{ block.super }}
   <!-- ECharts -->
   <script src="/static/vendors/echarts/dist/echarts.min.js"></script>
+    <script src="/static/vendors/raphael/raphael.min.js"></script>
+  <script src="/static/vendors/morris.js/morris.min.js"></script>
 {% endblock javascripts %}
