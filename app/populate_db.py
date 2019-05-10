@@ -404,7 +404,7 @@ def distribute_prob(id):
     aux = {}
     total = 0
     for count in range(i):
-        aux[count] = randint(1, 100)
+        aux[count] = randint(1, 10000000)
         total += aux[count]
     results = normalize(total, aux, 100)
     total = 0

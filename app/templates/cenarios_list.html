@@ -90,9 +90,9 @@
                                 {% for method in scenario.executed_methods.all %}
                                     <tr>
                                         <td><a href="{% url 'app:graph_method' method.id %}">{{ method.method_name }}</a></td>
-                                        <td><p>{{ method.get_count_features_spectra }}</p></td>
-                                        <td><p>{{ method.get_probability }}%</p></td>
-                                        <td><p>{{ method.get_spec_count_spectra }}</p></td>
+                                        <td><p>{{ method.impacted_features }}</p></td>
+                                        <td><p>{{ method.probability }}%</p></td>
+                                        <td><p>{{ method.number_of_tests }}</p></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

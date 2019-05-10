@@ -136,9 +136,12 @@ class Method(models.Model):
     number_of_lines = models.IntegerField(blank=True, null=True, default=0)
     line = models.IntegerField(blank=True, null=True, default=0)
     content = models.TextField(blank=True, null=True)
-
+    folder = models.CharField(max_length=200, blank=True, null=True)
     probability = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100)], blank=True, null=True,
                                     default=0)
+    impacted_features = models.IntegerField(blank=True, null=True, default=0)
+    number_of_tests = models.IntegerField(blank=True, null=True, default=0)
+
     project = models.ForeignKey('app.Project', verbose_name='Project', blank=True, related_name='methods',
                                 on_delete=models.CASCADE, null=True)
 

@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from app.analyze_project import get_methods_without_features, get_all_tested_methods, get_features_without_methods, \
-    distribute_importance_group, number_tests_by_group
+    distribute_importance_group, number_tests_by_group, get_folders_tested
 from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method, Spec
 from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph, save_methods, \
@@ -37,17 +37,14 @@ def show_tree(request, id):
 
 def show_project(request, id):
     project = Project.objects.get(pk=id)
-    met_features = get_methods_without_features(id)
-    met_specs = get_all_tested_methods(id)
-    methods = project.methods.all()
+    exec_met = get_methods_without_features(id)
+    # folders = get_folders_tested(id)
     specs = project.specs.all()
-    # features_without_methods = get_features_without_methods(id)
     context = {"project": project,
-               "met_features": met_features,
-               "met_specs": met_specs,
-               "methods": methods,
-               "specs": specs}
-               # "features_without_methods": features_without_methods}
+               "exec_met": exec_met,
+               "specs": specs
+               # "folders": folders
+               }
     return render(request, 'project_detail.html', context)
 
 
@@ -112,7 +109,7 @@ def bubble_chart(request, id):
 
 def random_prob(request, id):
     distribute_prob(id)
-    return render(request, 'index.html')
+    return render(request, 'projects.html')
 
 
 def graph(request, id):

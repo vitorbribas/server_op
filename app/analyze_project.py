@@ -3,46 +3,45 @@ from app.models import Method, Feature, Spec
 
 def get_methods_without_features(project):
     methods = Method.objects.filter(project=project)
-    features = Feature.objects.filter(project=project)
 
-    executed = set()
-    for feature in features.all():
-        for scenario in feature.simple_scenarios.all():
-            for met in scenario.executed_methods.all():
-                executed.add(met.id)
+    f_executed = []
+    f_not_executed = []
+    t_executed = []
+    t_not_executed = []
+    for method in methods:
+        if method.impacted_features == 0:
+            f_not_executed.append(method.id)
+        else:
+            f_executed.append(method.id)
+        if method.number_of_tests == 0:
+            t_not_executed.append(method.id)
+        else:
+            t_executed.append(method.id)
 
-    print('Executed:', len(executed))
-    not_executed = set()
-
-    for method in methods.all():
-        if method.id not in executed:
-            not_executed.add(method.id)
-    print('Not executed: ', len(not_executed))
-    result = {"executed": executed,
-              "not_executed": not_executed}
+    result = {"f_executed": f_executed,
+              "f_not_executed": f_not_executed,
+              "t_executed": t_executed,
+              "t_not_executed": t_not_executed,
+              "number_methods": len(methods)
+              }
 
     return result
 
 
 def get_all_tested_methods(project):
     methods = Method.objects.filter(project=project)
-    specs = Spec.objects.filter(project=project)
 
-    executed = set()
-    for spec in specs:
-        for met in spec.executed_methods.all():
-            executed.add(met.method_id)
-
+    executed = []
     not_executed = []
-
     for method in methods:
-        if method.method_id not in executed:
-            not_executed.append(method.method_id)
+        if method.number_of_tests == 0:
+            executed.append(method.id)
+        else:
+            not_executed.append(method.id)
 
     result = {"executed": executed,
               "not_executed": not_executed}
 
-    # print(result)
     return result
 
 
@@ -110,4 +109,39 @@ def number_tests_by_group(groups):
     else:
         result['low'] = 0
 
+    return result
+
+
+def get_folders_tested(id):
+    methods = Method.objects.filter(project=id)
+    folders_bdds = {}
+    folders_specs = {}
+    folders = {}
+    each = {"folder": "", "bdds": 0, "specs": 0}
+    result = []
+    for method in methods:
+        folders[method.folder] = set()
+        folders[method.folder] = set()
+    for method in methods:
+        folders[method.folder].add(method)
+        folders[method.folder].add(method)
+
+    print('Número de Folders: ', len(folders))
+
+    for key in folders:
+        specs_folder = 0
+        folders_specs[key] = 0
+        for method in folders[key]:
+            specs = method.specs.all()
+            specs_folder += len(specs)
+        folders_specs[key] += specs_folder
+
+    print('Número de Folders testados: ', len(folders_specs))
+
+    total = 0
+    for key in folders_specs:
+        print(key, ': ', folders_specs[key])
+        total += folders_specs[key]
+    # print('Folders: ', folders_specs)
+    print('Total: ', total)
     return result

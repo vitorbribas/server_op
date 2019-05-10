@@ -68,7 +68,7 @@
 {#                  </li>#}
                     <li class="hidden-phone" style="width: 10%">
                         <span class="name" > Methods </span>
-                    <a href="{% url 'app:list_methods' project.id %}"><span class="value text-success"> {{ methods|length }} </span></a>
+                    <a href="{% url 'app:list_methods' project.id %}"><span class="value text-success"> {{ exec_met.number_methods }} </span></a>
                   </li>
                   <li class="hidden-phone" style="width: 10%">
                     <span class="name"> BDD Features </span>
@@ -80,11 +80,11 @@
                     </li>
                     <li class="hidden-phone" style="width: 10%">
                         <span class="name"> Covered Methods</span>
-                        <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ met_specs.executed|length }} </span></a>
+                        <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ exec_met.t_executed|length }} </span></a>
                       </li>
                     <li class="hidden-phone" style="word-wrap: break-word;  max-width: 20%;">
                         <span class="name"> Methods without Features </span>
-                        <a href="{% url 'app:features' project.id %} "><span class="value text-success"> {{ met_features.not_executed|length }} </span></a>
+                        <a href="{% url 'app:features' project.id %} "><span class="value text-success"> {{ exec_met.not_executed|length }} </span></a>
                       </li>
 {#                    <li class="hidden-phone" style="width: 10%">#}
 {#                        <span class="name"> Features without Methods</span>#}
@@ -226,6 +226,7 @@
 {% block javascripts %}
   {{ block.super }}
   <!-- ECharts -->
+    var folders_data = {{ folders|safe }}
   <script src="/static/vendors/echarts/dist/echarts.min.js"></script>
     <script src="/static/vendors/raphael/raphael.min.js"></script>
   <script src="/static/vendors/morris.js/morris.min.js"></script>
