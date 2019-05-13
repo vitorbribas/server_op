@@ -82,10 +82,11 @@
                         <span class="name"> Covered Methods</span>
                         <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ exec_met.t_executed|length }} </span></a>
                       </li>
-                    <li class="hidden-phone" style="word-wrap: break-word;  max-width: 20%;">
-                        <span class="name"> Methods without Features </span>
-                        <a href="{% url 'app:features' project.id %} "><span class="value text-success"> {{ exec_met.not_executed|length }} </span></a>
-                      </li>
+
+{#                    <li class="hidden-phone" style="word-wrap: break-word;  max-width: 20%;">#}
+{#                        <span class="name"> Methods without Features </span>#}
+{#                        <a href="{% url 'app:features' project.id %} "><span class="value text-success"> {{ exec_met.not_executed|length }} </span></a>#}
+{#                      </li>#}
 {#                    <li class="hidden-phone" style="width: 10%">#}
 {#                        <span class="name"> Features without Methods</span>#}
 {#                        <a href="{% url 'app:features' project.id %}"><span class="value text-success"> {{ features_without_methods|length }} </span></a>#}

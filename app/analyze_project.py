@@ -70,9 +70,9 @@ def distribute_importance_group(methods):
     }
 
     for method in methods:
-        if method.get_probability() < 30:
+        if method.probability < 30:
             groups['low'].append(method)
-        elif method.get_probability() < 70:
+        elif method.probability < 70:
             groups['medium'].append(method)
         else:
             groups['high'].append(method)

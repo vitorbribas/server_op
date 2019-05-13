@@ -92,7 +92,7 @@
                                         <td><a href="{% url 'app:graph_method' method.id %}">{{ method.method_name }}</a></td>
                                         <td><p>{{ method.impacted_features }}</p></td>
                                         <td><p>{{ method.probability }}%</p></td>
-                                        <td><p>{{ method.number_of_tests }}</p></td>
+                                        <td><a href="{% url 'app:graph_spec_method' method.id %}">{{ method.number_of_tests }}</a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

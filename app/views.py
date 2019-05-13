@@ -8,7 +8,7 @@ from app.analyze_project import get_methods_without_features, get_all_tested_met
 from app.forms import FeatureForm
 from app.models import Project, Feature, SimpleScenario, Method, Spec
 from app.populate_db import create_entities, prepare_graph, prepare_feature_graph, prepare_method_graph, save_methods, \
-    distribute_prob, prepare_spec_graph
+    distribute_prob, prepare_spec_graph, prepare_method_specs_graph
 from app.tree_object import create_chart, create_nodes
 
 
@@ -138,6 +138,14 @@ def graph_specs(request, id):
 
 def graph_method(request, id):
     graph = prepare_method_graph(id)
+    context = {
+        "graph": graph
+    }
+    return render(request, 'graph_method.html', context)
+
+
+def graph_method_specs(request, id):
+    graph = prepare_method_specs_graph(id)
     context = {
         "graph": graph
     }

@@ -28,6 +28,7 @@ urlpatterns = [
     path('graphmethods/<int:id>', views.graph_method, name='graph_method'),
     path('bublechart/<int:id>', views.bubble_chart, name='bubble'),
     path('insertprob/<int:id>', views.insert_probabilities, name='prob'),
+    path('methodspecs/<int:id>', views.graph_method_specs, name='graph_spec_method'),
 
     # Probability
     path('probability/<int:id>', views.random_prob, name='random_prob')

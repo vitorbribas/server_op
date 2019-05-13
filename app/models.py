@@ -158,7 +158,6 @@ class Method(models.Model):
     def get_count_spectra(self):
         return len(self.scenarios.all())
 
-    # TODO incluir algoritmo no artigo.
     def get_count_features_spectra(self):
         scenarios = self.scenarios.all()
         features = set()

@@ -45,7 +45,7 @@ d3.json("{% static 'method_graph.json'%}", function(error, graph) {
     .selectAll("line")
     .data(graph.links)
     .enter().append("line")
-      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+      .attr("stroke-width", function(d) { return Math.sqrt(d.value)/2; });
   var color_feature = d3.color("black");
   var color_border = d3.color("white");
   var color_scenario = d3.color("green");
@@ -88,7 +88,7 @@ d3.json("{% static 'method_graph.json'%}", function(error, graph) {
             return 3
           }
            })
-      .attr("fill", function(d) { return color(d.group); })
+      .attr("fill", function(d) { return define_color(d.group); })
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
@@ -156,6 +156,19 @@ d3.json("{% static 'method_graph.json'%}", function(error, graph) {
     rect.attr("width", bbox.width + 10)
         .attr("height", bbox.height + 10)
   });
+
+  function define_color(number){
+  if(number == 10){
+      return "#0000EE";
+  }else if(number==15){
+      return "#FF8247";
+  }else if(number==20) {
+      return "#FF34B3";
+  }else{
+      return "#00BFFF";
+  }
+}
+
   function ticked() {
     link
         .attr("x1", function(d) { return d.source.x; })

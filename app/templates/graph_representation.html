@@ -35,7 +35,7 @@ var svg = d3.select("svg"),
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody().strength(-200)) {# Força gravitacional #}
+    .force("charge", d3.forceManyBody().strength(-150)) {# Força gravitacional #}
     .force("center", d3.forceCenter(width / 2, height / 2));
 
 d3.json("{% static 'feature_graph.json'%}", function(error, graph) {
@@ -45,7 +45,7 @@ d3.json("{% static 'feature_graph.json'%}", function(error, graph) {
     .selectAll("line")
     .data(graph.links)
     .enter().append("line")
-      .attr("stroke-width", function(d) { return Math.sqrt(d.value/20); });{# Link #}
+      .attr("stroke-width", function(d) { return Math.sqrt(d.value/30); });{# Link #}
   var color_feature = d3.color("black");
   var color_border = d3.color("white");
   var color_scenario = d3.color("green");
@@ -88,7 +88,7 @@ d3.json("{% static 'feature_graph.json'%}", function(error, graph) {
             return 5
           }
            })
-      .attr("fill", function(d) { return color(d.group); })
+      .attr("fill", function(d) { return define_color(d.group); })
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
@@ -111,6 +111,17 @@ d3.json("{% static 'feature_graph.json'%}", function(error, graph) {
         .attr("cy", function(d) { return d.y; });
   }
 });
+ function define_color(number){
+  if(number == 10){
+      return "#0000EE";
+  }else if(number==15){
+      return "#FF8247";
+  }else if(number==20) {
+      return "#FF34B3";
+  }else{
+      return "#00BFFF";
+  }
+}
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
   d.fx = d.x;
@@ -122,8 +133,8 @@ function dragged(d) {
 }
 function dragended(d) {
   if (!d3.event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
+  {#d.fx = null;#} {# Comentei para que possamos fixar os pontos após arrastar eles. #}
+  {#d.fy = null;#}
 }
 </script>
 {% endblock content %}

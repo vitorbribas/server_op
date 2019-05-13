@@ -56,7 +56,7 @@ def get_project(project_json):
 
 
 def create_entities(project):
-
+    #TODO: LEMBRAR DE CRIAR ROTINA PRA CALCULAR SPECTRUM E PROBABILIDADES E JÁ SALVAR
     feature = Feature()
 
     try:
@@ -116,6 +116,51 @@ def is_new_method(method):
         return False
     else:
         return True
+
+
+def prepare_method_specs_graph(id):
+    SPEC_GROUP = 10
+    METHOD_GROUP = 15
+    print('Preparing Method-Spec Graph...')
+    graph = {
+        "nodes": [],
+        "links": []
+    }
+
+    method = Method.objects.get(id=id)
+
+    if method.specs:
+        node = {
+            "id": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name + method.method_id)),
+            "cod": method.id,
+            "name": method.method_name,
+            "group": METHOD_GROUP,
+            "executed": method.scenarios.count(),
+            "size": 1
+        }
+
+        graph['nodes'].append(node)
+        for spec in method.specs.all():
+
+            node = {
+                "id": re.sub('[^A-Za-z0-9]+', '', (spec.description + spec.file + str(spec.line))),
+                "cod": spec.id,
+                "name": spec.description,
+                "group": SPEC_GROUP,
+                "size": len(spec.executed_methods.all())
+            }
+            if node not in graph['nodes']:
+                graph['nodes'].append(node)
+
+            link = {
+                "source": re.sub('[^A-Za-z0-9]+', '', (method.method_name + method.class_name + method.method_id)),
+                "target": re.sub('[^A-Za-z0-9]+', '', (spec.description + spec.file + str(spec.line))),
+                "value": 2
+            }
+            graph['links'].append(link)
+
+    with open('app/static/method_graph.json', 'w') as outfile:
+        json.dump(graph, outfile)
 
 
 def prepare_method_graph(id):
