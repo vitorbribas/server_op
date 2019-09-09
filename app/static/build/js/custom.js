@@ -2680,18 +2680,7 @@ function init_morris_charts() {
         Morris.Bar({
             element: 'graph_bar_group',
 
-            data: [
-                { "folder": "Controllers", "bdds": 807, "specs": 660 },
-                { "folder": "Helpers", "bdds": 1251, "specs": 729 },
-                { "folder": "Models", "bdds": 1769, "specs": 1018 },
-                { "folder": "Serializers", "bdds": 2246, "specs": 1461 },
-                { "folder": "Uploaders", "bdds": 2657, "specs": 1967 },
-                { "folder": "Workers", "bdds": 3148, "specs": 2627 },
-                { "folder": "Mailers", "bdds": 3471, "specs": 3740 },
-                { "folder": "Presenters", "bdds": 2871, "specs": 2216 },
-                { "folder": "Services", "bdds": 2401, "specs": 1656 }
-                // { "folder": "2016-09-10", "bdds": 2115, "specs": 1022 }
-            ],
+            data: folders_data,
             xkey: 'folder',
             barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
             ykeys: ['bdds', 'specs'],

@@ -79,8 +79,10 @@ WSGI_APPLICATION = 'gentelella.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'trace_feature',
-        # 'NAME': 'feature_test',
+        # 'NAME': 'diaspora_case_study',
+        # 'NAME': 'diaspora_validation',  # Completao
+        'NAME': 'sigs_test_feature',
+        # 'NAME': 'sigs_validation',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',

@@ -21,8 +21,7 @@ def save_methods(project):
         print('.', ' ')
         base = Method.objects.filter(method_id=method['method_id'])
         if len(base) > 0:
-            print('Método já existe: ', method['method_id'])
-            print('Olha ele na base: ', base[0].method_id)
+            print('Method already exists: ', method['method_id'])
         else:
             new_method = Method()
             new_method.class_path = method['class_path']
@@ -56,12 +55,12 @@ def get_project(project_json):
 
 
 def create_entities(project):
+    #TODO: Ao ler um cenário, se este não tiver título, deverá ser 'Background'.
     #TODO: LEMBRAR DE CRIAR ROTINA PRA CALCULAR SPECTRUM E PROBABILIDADES E JÁ SALVAR
     feature = Feature()
 
     try:
         print('------------------------- Reading New Feature -------------------------')
-        # print(project.data)
         loaded_json = json.loads(project.data)
         project = get_project(loaded_json['project'])
         feature.project = project
@@ -91,14 +90,6 @@ def create_entities(project):
                 print('Scenario: ', scenario.scenario_title)
                 scenario.save()
             for method in each_scenario['executed_methods']:
-                # if is_new_method(method):
-                #     met = Method()
-                #     met.method_name = method['method_name']
-                #     met.class_name = method['class_name']
-                #     met.class_path = method['class_path']
-                #     met.save()
-                #     scenario.executed_methods.add(met)
-                # else:
                 met = Method.objects.filter(method_id=method['method_id'])
                 if len(met) < 1:
                     print('METHOD NOT FOUND! ', method['method_id'])
