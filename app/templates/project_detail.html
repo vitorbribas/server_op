@@ -68,7 +68,8 @@
 {#                  </li>#}
                     <li class="hidden-phone" style="width: 10%">
                         <span class="name" > Methods </span>
-                    <a href="{% url 'app:list_methods' project.id %}"><span class="value text-success"> {{ exec_met.number_methods }} </span></a>
+                        <p>{{ exec_met.number_methods }}</p>
+{#                    <a href="{% url 'app:list_methods' project.id %}"><span class="value text-success"> {{ exec_met.number_methods }} </span></a>#}
                   </li>
                   <li class="hidden-phone" style="width: 10%">
                     <span class="name"> BDD Features </span>

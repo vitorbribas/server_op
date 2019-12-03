@@ -52,7 +52,7 @@
                 {% for method in methods.high %}
                   <tr>
                     <th scope="row">{{ method.id }}</th>
-                    <td>{{ method.method_name }}</td>
+                    <td>{{ method.class_name }}:{{ method.method_name }}</td>
                       <td>{{ method.get_spec_count_spectra }}</td>
                     <td>{{ method.abc_score}}</td>
                     <td>{{ method.get_probability }}%</td>
@@ -88,7 +88,7 @@
                 {% for method in methods.medium %}
                   <tr>
                     <th scope="row">{{ method.id }}</th>
-                    <td>{{ method.method_name }}</td>
+                    <td>{{ method.class_name }}:{{ method.method_name }}</td>
                       <td>{{ method.get_spec_count_spectra }}</td>
                     <td>{{ method.abc_score }}</td>
                     <td>{{ method.get_probability }}%</td>
@@ -125,7 +125,7 @@
                 {% for method in methods.low %}
                   <tr>
                     <th scope="row">{{ method.id }}</th>
-                    <td style="width: 1%;">{{ method.method_name }}</td>
+                    <td style="width: 1%;">{{ method.class_name }}:{{ method.method_name }}</td>
                       <td>{{ method.get_spec_count_spectra }}</td>
                     <td>{{ method.abc_score }}</td>
                     <td>{{ method.get_probability }}%</td>

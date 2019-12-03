@@ -55,7 +55,7 @@
                 {% for method in methods.high %}
                   <tr>
                     <th scope="row">{{ method.id }}</th>
-                    <td style="word-wrap: break-word;  max-width: 150px;">{{ method.method_name }}</td>
+                    <td style="word-wrap: break-word;  max-width: 150px;">{{ method.class_name }}:{{ method.method_name }}</td>
 {#                      <td>{{ method.content }}</td>#}
                       <td>{{ method.impacted_features }}</td>
                     <td>{{ method.probability }}%</td>

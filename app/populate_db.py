@@ -54,6 +54,15 @@ def get_project(project_json):
         return project
 
 
+def count_data(project_id):
+    methods = Method.objects.filter(project=project_id)
+
+    for method in methods:
+        method.impacted_features = method.get_count_features_spectra()
+        method.number_of_tests = method.get_spec_count_spectra()
+        method.save()
+
+
 def create_entities(project):
     #TODO: Ao ler um cenário, se este não tiver título, deverá ser 'Background'.
     #TODO: LEMBRAR DE CRIAR ROTINA PRA CALCULAR SPECTRUM E PROBABILIDADES E JÁ SALVAR
