@@ -22,7 +22,7 @@ class Project(models.Model):
 class Feature(models.Model):
 
     path_name = models.CharField(max_length=200, blank=True, null=True)
-    feature_name = models.CharField(max_length=100, blank=True, null=True)
+    feature_name = models.CharField(max_length=300, blank=True, null=True)
     language = models.CharField(max_length=50, blank=True, null=True)
     user_story = models.CharField(max_length=300, blank=True, null=True)
     background = models.CharField(max_length=300, blank=True, null=True)
