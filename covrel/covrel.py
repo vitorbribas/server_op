@@ -73,9 +73,18 @@ def include_new_spec(spec):
                 #     it.executed_methods.add(met)
                 # else:
                 #     print('Method already exists!')
-                met = Method.objects.get(method_id=method['method_id'])
+                met = Method.objects.filter(method_id=method['method_id'])
                 print('Getting Method..')
-                if met:
+                try:
+                    if met[0]:
+                        it.executed_methods.add(met[0])
+                except IndexError:
+                    print('New Method!')
+                    met = Method()
+                    met.method_name = method['method_name']
+                    met.class_name = method['class_name']
+                    met.class_path = method['class_path']
+                    met.save()
                     it.executed_methods.add(met)
             print('Saving Spec!')
             it.save()
