@@ -101,8 +101,23 @@ def create_entities(project):
             for method in each_scenario['executed_methods']:
                 met = Method.objects.filter(method_id=method['method_id'])
                 if len(met) < 1:
-                    print('METHOD NOT FOUND! ', method['method_id'])
-                scenario.executed_methods.add(met[0])
+                    print('METHOD NOT FOUND! CREATING.... ', method['method_id'])
+                    new_method = Method()
+                    new_method.class_path = method['class_path']
+                    new_method.method_name = method['method_name']
+                    new_method.content = method['content']
+                    new_method.line = method['line']
+                    new_method.class_name = method['class_name']
+                    new_method.method_id = method['method_id']
+                    new_method.complexity = method['complexity']
+                    new_method.number_of_lines = method['number_of_lines']
+                    new_method.abc_score = method['abc_score']
+
+                    new_method.project = project
+                    new_method.save()
+                else:
+                    scenario.executed_methods.add(met[0])
+                    scenario.save()
 
         print('------------------------- DONE! -------------------------')
         return True
