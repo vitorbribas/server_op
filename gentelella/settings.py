@@ -83,8 +83,8 @@ DATABASES = {
         # 'NAME': 'diaspora_validation',  # Completao
         'NAME': 'sigs_test_feature',
         # 'NAME': 'sigs_validation',
-        'USER': 'vitorribas',
-        'PASSWORD': 'vitorribas',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }
