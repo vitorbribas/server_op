@@ -1,0 +1,8 @@
+[run]
+source = .
+omit = */node_modules/*
+       */migrations/*
+
+[report]
+show_missing = True
+skip_covered = True

@@ -2,3 +2,6 @@ Django==2.1.11
 djangorestframework==3.11.2
 psycopg2==2.8.4
 pytz==2018.9
+coverage==5.5
+pytest-cov==2.12.1
+pytest-django==4.4.0
