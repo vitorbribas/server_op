@@ -81,11 +81,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # 'NAME': 'diaspora_case_study',
         # 'NAME': 'diaspora_validation',  # Completao
-        'NAME': 'sigs_test_feature',
+        # 'NAME': 'sigs_test_feature',
         # 'NAME': 'sigs_validation',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
