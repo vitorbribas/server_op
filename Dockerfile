@@ -13,7 +13,7 @@ COPY requirements.txt /code/
 
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY . /code/
 
 # Start the main process.
 EXPOSE 8000
