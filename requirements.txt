@@ -5,3 +5,5 @@ pytz==2018.9
 coverage==5.5
 pytest-cov==2.12.1
 pytest-django==4.4.0
+gunicorn==20.1.0
+django-heroku==0.3.1
