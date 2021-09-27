@@ -2,7 +2,7 @@ on:
   push:
     branches: [ master ]
 
-name: Deploy to Heroku
+name: Deploy to Heroku Production
 
 jobs:
   deploy:
@@ -15,5 +15,5 @@ jobs:
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: ${{ secrets.HEROKU_NAME }}
+        heroku_app_name: ${{ secrets.HEROKU_PRODUCTION_NAME }}
         heroku_email: ${{ secrets.HEROKU_EMAIL }}
